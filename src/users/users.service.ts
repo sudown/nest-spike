@@ -1,16 +1,17 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import * as winston from 'winston';
 
 @Injectable()
 export class UsersService {
-  private readonly logger = new Logger(UsersService.name);
+  constructor(@Inject('Logger') private readonly logger: winston.Logger) {}
   create(createUserDto: CreateUserDto) {
     return createUserDto;
   }
 
   findAll() {
-    this.logger.log('This is an error message');
+    this.logger.log('info', 'Esta é uma mensagem de log.');
     return `This action returns all users`;
   }
 

@@ -3,9 +3,11 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { FindOneParams } from './dto/FindOneParams.dto';
+// import { Logger } from '@nestjs/common';
 
 @Controller('users')
 export class UsersController {
+  // private readonly logger = new Logger(UsersController.name);
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
@@ -15,6 +17,8 @@ export class UsersController {
 
   @Get()
   findAll() {
+    // this.logger.log('Esta é uma mensagem de log.');
+    // this.logger.error('Esta é uma mensagem de erro.');
     return this.usersService.findAll();
   }
 
