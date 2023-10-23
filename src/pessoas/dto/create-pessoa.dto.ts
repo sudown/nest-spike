@@ -1,14 +1,13 @@
-import { IsEmail, IsNumber, IsString, IsUUID } from 'class-validator';
+import { IsEmail, IsString, IsStrongPassword } from 'class-validator';
 
 export class CreatePessoaDto {
-  @IsUUID()
-  Id: string;
   @IsString()
   Nome: string;
   @IsEmail()
   Email: string;
+  @IsStrongPassword()
+  Senha: string;
   @IsString()
-  Tipo: number;
-  @IsNumber()
-  XP: number;
+  Tipo: string;
+  XP?: number;
 }

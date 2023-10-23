@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePessoaDto } from './dto/create-pessoa.dto';
 import { UpdatePessoaDto } from './dto/update-pessoa.dto';
 import { PrismaService } from '../prisma.service';
 import { Pessoa, Prisma } from '@prisma/client';
@@ -15,18 +14,25 @@ export class PessoasService {
   }
 
   findAll() {
-    return `This action returns all pessoas`;
+    return this.prisma.pessoa.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} pessoa`;
+  findOne(Id: number) {
+    return this.prisma.pessoa.findUnique({
+      where: { Id },
+    });
   }
 
-  update(id: number, updatePessoaDto: UpdatePessoaDto) {
-    return `This action updates a #${id} pessoa`;
+  update(Id: number, updatePessoaDto: UpdatePessoaDto) {
+    return this.prisma.pessoa.update({
+      where: { Id },
+      data: updatePessoaDto,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pessoa`;
+  remove(Id: number) {
+    return this.prisma.pessoa.delete({
+      where: { Id },
+    });
   }
 }
