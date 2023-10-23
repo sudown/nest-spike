@@ -73,7 +73,7 @@ model Pessoa {
   possui    Possui[]
   cursa     Cursa[]
   patente   Patente? @relation(fields: [patenteId], references: [Id])
-  patenteId Int?
+  patenteId Int?    @default(1)
 }
 
 // Definição do modelo Patente

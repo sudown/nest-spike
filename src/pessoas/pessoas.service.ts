@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UpdatePessoaDto } from './dto/update-pessoa.dto';
-import { PessoasRepository } from 'src/repositories/pessoa.repository';
+import { PessoasRepository } from 'src/repositories/pessoas.repository';
 import { Pessoa, Prisma } from '@prisma/client';
 
 @Injectable()
@@ -24,6 +24,6 @@ export class PessoasService {
   }
 
   async remove(Id: number): Promise<Pessoa> {
-    return this.pessoasRepository.remove(Id);
+    return this.pessoasRepository.delete(Id);
   }
 }

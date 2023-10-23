@@ -32,7 +32,7 @@ export class PessoasRepository {
     });
   }
 
-  async remove(Id: number): Promise<Pessoa> {
+  async delete(Id: number): Promise<Pessoa> {
     return this.prisma.pessoa.delete({
       where: { Id },
     });
