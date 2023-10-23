@@ -1,38 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { UpdatePessoaDto } from './dto/update-pessoa.dto';
-import { PrismaService } from '../prisma.service';
+import { PessoasRepository } from 'src/repositories/pessoa.repository';
 import { Pessoa, Prisma } from '@prisma/client';
 
 @Injectable()
 export class PessoasService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private pessoasRepository: PessoasRepository) {}
 
   async create(data: Prisma.PessoaCreateInput): Promise<Pessoa> {
-    return this.prisma.pessoa.create({
-      data,
-    });
+    return this.pessoasRepository.create(data);
   }
 
-  findAll() {
-    return this.prisma.pessoa.findMany();
+  async findAll(): Promise<Pessoa[]> {
+    return this.pessoasRepository.findAll();
   }
 
-  findOne(Id: number) {
-    return this.prisma.pessoa.findUnique({
-      where: { Id },
-    });
+  async findOne(Id: number): Promise<Pessoa | null> {
+    return this.pessoasRepository.findOne(Id);
   }
 
-  update(Id: number, updatePessoaDto: UpdatePessoaDto) {
-    return this.prisma.pessoa.update({
-      where: { Id },
-      data: updatePessoaDto,
-    });
+  async update(Id: number, updatePessoaDto: UpdatePessoaDto): Promise<Pessoa> {
+    return this.pessoasRepository.update(Id, updatePessoaDto);
   }
 
-  remove(Id: number) {
-    return this.prisma.pessoa.delete({
-      where: { Id },
-    });
+  async remove(Id: number): Promise<Pessoa> {
+    return this.pessoasRepository.remove(Id);
   }
 }
