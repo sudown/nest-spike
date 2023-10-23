@@ -10,19 +10,105 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id    Int     @default(autoincrement()) @id
-  email String  @unique
-  name  String?
-  password  String
-  posts Post[]
+// Definição do modelo Insignia
+model Insignia {
+
+  Id        Int      @id @default(autoincrement())
+  Descricao String
+  Nome      String
+  Imagem    String
+  possui    Possui[]
 }
 
-model Post {
-  id        Int      @default(autoincrement()) @id
-  title     String
-  content   String?
-  published Boolean? @default(false)
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
+// Definição do modelo Aula
+model Aula {
+  Id           Int         @id @default(autoincrement())
+  Descricao    String
+  Xp           Int?
+  Concluido    Boolean
+  modulo       Modulo      @relation(fields: [fk_modulo_id], references: [Id])
+  fk_modulo_id Int
+  feedback     Feedback[]
+  materiais    Materiais[]
+}
+
+// Definição do modelo Feedback
+model Feedback {
+  Id         Int    @id @default(autoincrement())
+  Avaliacao  Int
+  Comentario String
+  fk_Aula_Id Int
+  aula       Aula   @relation(fields: [fk_Aula_Id], references: [Id])
+}
+
+// Definição do modelo Materiais
+model Materiais {
+  Id         Int    @id @default(autoincrement())
+  Nome       String
+  Tipo       String
+  URL        String
+  fk_Aula_Id Int
+  aula       Aula   @relation(fields: [fk_Aula_Id], references: [Id])
+}
+
+// Definição do modelo Modulo
+model Modulo {
+  Id        Int     @id @default(autoincrement())
+  Titulo    String
+  Descricao String
+  Concluido Boolean
+  curso     Curso   @relation(fields: [fkCursoId], references: [Id])
+  fkCursoId Int
+  Aula      Aula[]
+}
+
+// Definição do modelo Pessoa
+model Pessoa {
+  Id        Int      @id @default(autoincrement())
+  Nome      String
+  Senha     String
+  Email     String
+  Tipo      String
+  XP        Int
+  possui    Possui[]
+  cursa     Cursa[]
+  patente   Patente? @relation(fields: [patenteId], references: [Id])
+  patenteId Int?
+}
+
+// Definição do modelo Patente
+model Patente {
+  Id        Int      @id @default(autoincrement())
+  Nome      String
+  Imagem    String
+  Descricao String
+  pessoas   Pessoa[]
+}
+
+// Definição do modelo possui
+model Possui {
+  ID_AlunoIns    Int      @id @default(autoincrement())
+  fk_Pessoa_Id   Int
+  fk_Insignia_Id Int
+  pessoa         Pessoa   @relation(fields: [fk_Pessoa_Id], references: [Id])
+  insignia       Insignia @relation(fields: [fk_Insignia_Id], references: [Id])
+}
+
+// Definição do modelo cursa
+model Cursa {
+  Id           Int    @id @default(autoincrement())
+  fk_Pessoa_Id Int
+  fk_Curso_Id  Int
+  pessoa       Pessoa @relation(fields: [fk_Pessoa_Id], references: [Id])
+  curso        Curso  @relation(fields: [fk_Curso_Id], references: [Id])
+}
+
+// Definição do modelo Curso
+model Curso {
+  Id        Int      @id @default(autoincrement())
+  Titulo    String
+  Descricao String
+  Concluido Boolean
+  Modulo    Modulo[]
+  Cursa     Cursa[]
 }
