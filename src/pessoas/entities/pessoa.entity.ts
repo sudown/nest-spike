@@ -5,7 +5,8 @@ export class Pessoa {
    * @example Pessoa
    */
   name: string;
-
+  @ApiProperty()
+  Id: string;
   @ApiProperty()
   Nome: string;
   @ApiProperty()

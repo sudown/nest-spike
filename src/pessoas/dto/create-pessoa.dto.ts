@@ -1,4 +1,4 @@
-import { IsEmail, IsNumber, IsString, IsStrongPassword } from 'class-validator';
+import { IsEmail, IsString, IsStrongPassword } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreatePessoaDto {
@@ -13,7 +13,6 @@ export class CreatePessoaDto {
   @ApiProperty()
   @IsString()
   Tipo: string;
-  @ApiProperty()
-  @IsNumber()
+  @ApiProperty({ required: false })
   XP?: number;
 }
