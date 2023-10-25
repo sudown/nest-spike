@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { Pessoa, Prisma } from '@prisma/client';
-import { PessoaResponseDto } from 'src/pessoas/dto/response-pessoa.dto';
 
 @Injectable()
 export class PessoasRepository {
@@ -13,24 +12,14 @@ export class PessoasRepository {
     });
   }
 
-  async findAll(): Promise<PessoaResponseDto[]> {
-    const pessoas = await this.prisma.pessoa.findMany();
-
-    const pessoasSemSenha: PessoaResponseDto[] = pessoas.map(
-      (pessoa) => new PessoaResponseDto(pessoa),
-    );
-
-    return pessoasSemSenha;
+  async findAll(): Promise<Pessoa[]> {
+    return await this.prisma.pessoa.findMany();
   }
 
-  async findOne(Id: number): Promise<PessoaResponseDto | null> {
-    const pessoa = await this.prisma.pessoa.findUnique({
+  async findOne(Id: number): Promise<Pessoa | null> {
+    return await this.prisma.pessoa.findUnique({
       where: { Id },
     });
-
-    if (!pessoa) return null;
-
-    return new PessoaResponseDto(pessoa);
   }
 
   async update(
@@ -43,11 +32,9 @@ export class PessoasRepository {
     });
   }
 
-  async delete(Id: number): Promise<PessoaResponseDto> {
-    const pessoa = await this.prisma.pessoa.delete({
+  async delete(Id: number): Promise<Pessoa> {
+    return await this.prisma.pessoa.delete({
       where: { Id },
     });
-
-    return new PessoaResponseDto(pessoa);
   }
 }
