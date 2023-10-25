@@ -1,12 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 export class Pessoa {
-  /**
-   * The name of the Cat
-   * @example Pessoa
-   */
-  name: string;
   @ApiProperty()
-  Id: string;
+  Id: number;
   @ApiProperty()
   Nome: string;
   @ApiProperty()
@@ -16,5 +11,5 @@ export class Pessoa {
   @ApiProperty()
   XP?: number;
   @ApiProperty()
-  patenteId?: string;
+  patenteId?: number;
 }

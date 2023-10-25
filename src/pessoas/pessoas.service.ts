@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import { UpdatePessoaDto } from './dto/update-pessoa.dto';
 import { PessoasRepository } from 'src/repositories/pessoas.repository';
 import { Pessoa, Prisma } from '@prisma/client';
+import { PessoaResponseDto } from 'src/pessoas/dto/response-pessoa.dto';
 import * as winston from 'winston';
 
 @Injectable()
@@ -21,11 +22,11 @@ export class PessoasService {
     }
   }
 
-  async findAll(): Promise<Pessoa[]> {
+  async findAll(): Promise<PessoaResponseDto[]> {
     return this.pessoasRepository.findAll();
   }
 
-  async findOne(Id: number): Promise<Pessoa | null> {
+  async findOne(Id: number): Promise<PessoaResponseDto | null> {
     return this.pessoasRepository.findOne(Id);
   }
 
@@ -33,7 +34,7 @@ export class PessoasService {
     return this.pessoasRepository.update(Id, updatePessoaDto);
   }
 
-  async remove(Id: number): Promise<Pessoa> {
+  async remove(Id: number): Promise<PessoaResponseDto> {
     return this.pessoasRepository.delete(Id);
   }
 }
