@@ -33,6 +33,7 @@ export class PessoasController {
   @Post()
   create(@Body() pessoa: CreatePessoaDto) {
     try {
+      this.logger.info('Criando uma pessoa');
       return this.pessoasService.create(pessoa);
     } catch (error) {
       this.logger.error(error);

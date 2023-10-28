@@ -1,8 +1,8 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { UpdatePessoaDto } from './dto/update-pessoa.dto';
-import { PessoasRepository } from 'src/repositories/pessoas.repository';
+import { PessoasRepository } from '../repositories/pessoas.repository';
 import { Pessoa, Prisma } from '@prisma/client';
-import { PessoaResponseDto } from 'src/pessoas/dto/response-pessoa.dto';
+import { PessoaResponseDto } from '../pessoas/dto/response-pessoa.dto';
 import * as winston from 'winston';
 
 @Injectable()
@@ -13,13 +13,7 @@ export class PessoasService {
   ) {}
 
   async create(data: Prisma.PessoaCreateInput): Promise<Pessoa> {
-    try {
-      this.logger.info('Pessoa criada com sucesso');
-      return this.pessoasRepository.create(data);
-    } catch (error) {
-      this.logger.error(error);
-      throw error;
-    }
+    return this.pessoasRepository.create(data);
   }
 
   async findAll(): Promise<PessoaResponseDto[]> {
