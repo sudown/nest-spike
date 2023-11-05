@@ -26,7 +26,7 @@ export class PessoasService {
     return pessoasSemSenha;
   }
 
-  async findOne(Id: number): Promise<PessoaResponseDto | null> {
+  async findOne(Id: number): Promise<Pessoa | null> {
     const pessoa = await this.pessoasRepository.findOne(Id);
 
     if (!pessoa) return null;
@@ -45,7 +45,7 @@ export class PessoasService {
   }
 
   // Função para remover a senha de um objeto PessoaResponseDto
-  private removeSensitiveData(pessoa: Pessoa): PessoaResponseDto {
-    return new PessoaResponseDto(pessoa);
+  private removeSensitiveData(pessoa: Pessoa): Pessoa {
+    return pessoa;
   }
 }
