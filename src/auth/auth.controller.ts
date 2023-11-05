@@ -1,5 +1,6 @@
-import { Controller, Body, Post, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Body, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { Public } from './guard/public.route';
 
 type SignInRequest = {
   Id: number;
@@ -10,7 +11,7 @@ type SignInRequest = {
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @HttpCode(HttpStatus.OK)
+  @Public()
   @Post('login')
   signIn(@Body() body: SignInRequest) {
     return this.authService.signIn(body.Id, body.Senha);

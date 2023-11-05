@@ -19,6 +19,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Pessoa } from './entities/pessoa.entity';
+import { Public } from 'src/auth/guard/public.route';
 
 @ApiTags('pessoas')
 @Controller('pessoas')
@@ -41,6 +42,7 @@ export class PessoasController {
     }
   }
 
+  @Public()
   @Get()
   @ApiOperation({ summary: 'Listar todas as pessoas' })
   @ApiResponse({
