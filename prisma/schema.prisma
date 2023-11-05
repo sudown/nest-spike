@@ -6,13 +6,12 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
 // Definição do modelo Insignia
 model Insignia {
-
   Id        Int      @id @default(autoincrement())
   Descricao String
   Nome      String
@@ -22,14 +21,15 @@ model Insignia {
 
 // Definição do modelo Aula
 model Aula {
-  Id           Int         @id @default(autoincrement())
-  Descricao    String
-  Xp           Int?
-  Concluido    Boolean
-  modulo       Modulo      @relation(fields: [fk_modulo_id], references: [Id])
-  fk_modulo_id Int
-  feedback     Feedback[]
-  materiais    Materiais[]
+  Id            Int             @id @default(autoincrement())
+  Descricao     String
+  Xp            Int?
+  modulo        Modulo          @relation(fields: [fk_modulo_id], references: [Id])
+  fk_modulo_id  Int
+  feedback      Feedback[]
+  materiais     Materiais[]
+  Sequencia     Int
+  AulaProgresso AulaProgresso[]
 }
 
 // Definição do modelo Feedback
@@ -53,27 +53,31 @@ model Materiais {
 
 // Definição do modelo Modulo
 model Modulo {
-  Id        Int     @id @default(autoincrement())
-  Titulo    String
-  Descricao String
-  Concluido Boolean
-  curso     Curso   @relation(fields: [fkCursoId], references: [Id])
-  fkCursoId Int
-  Aula      Aula[]
+  Id              Int               @id @default(autoincrement())
+  Titulo          String
+  Descricao       String
+  Sequencia       Int
+  curso           Curso             @relation(fields: [fkCursoId], references: [Id])
+  fkCursoId       Int
+  Aula            Aula[]
+  ModuloProgresso ModuloProgresso[]
 }
 
 // Definição do modelo Pessoa
 model Pessoa {
-  Id        Int      @id @default(autoincrement())
-  Nome      String
-  Senha     String
-  Email     String
-  Tipo      String
-  XP        Int     @default(10)
-  possui    Possui[]
-  cursa     Cursa[]
-  patente   Patente? @relation(fields: [patenteId], references: [Id])
-  patenteId Int?    @default(1)
+  Id              Int               @id @default(autoincrement())
+  Nome            String
+  Senha           String
+  Email           String
+  Tipo            String
+  XP              Int               @default(10)
+  possui          Possui[]
+  cursa           Cursa[]
+  patente         Patente?          @relation(fields: [patenteId], references: [Id])
+  patenteId       Int?              @default(1)
+  AulaProgresso   AulaProgresso[]
+  ModuloProgresso ModuloProgresso[]
+  CursoProgresso  CursoProgresso[]
 }
 
 // Definição do modelo Patente
@@ -105,10 +109,43 @@ model Cursa {
 
 // Definição do modelo Curso
 model Curso {
-  Id        Int      @id @default(autoincrement())
-  Titulo    String
-  Descricao String
-  Concluido Boolean
-  Modulo    Modulo[]
-  Cursa     Cursa[]
+  Id             Int              @id @default(autoincrement())
+  Titulo         String
+  Descricao      String
+  Modulo         Modulo[]
+  Cursa          Cursa[]
+  CursoProgresso CursoProgresso[]
+}
+
+model AulaProgresso {
+  idAula    Int
+  idPessoa  Int
+  concluido Boolean
+
+  aula   Aula   @relation(fields: [idAula], references: [Id])
+  pessoa Pessoa @relation(fields: [idPessoa], references: [Id])
+
+  @@id([idAula, idPessoa])
+}
+
+model ModuloProgresso {
+  idModulo  Int
+  idPessoa  Int
+  concluido Boolean
+
+  modulo Modulo @relation(fields: [idModulo], references: [Id])
+  pessoa Pessoa @relation(fields: [idPessoa], references: [Id])
+
+  @@id([idModulo, idPessoa])
+}
+
+model CursoProgresso {
+  idCurso   Int
+  idPessoa  Int
+  concluido Boolean
+
+  curso  Curso  @relation(fields: [idCurso], references: [Id])
+  pessoa Pessoa @relation(fields: [idPessoa], references: [Id])
+
+  @@id([idCurso, idPessoa])
 }
