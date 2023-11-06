@@ -19,6 +19,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Pessoa } from './entities/pessoa.entity';
+import { Pessoa as PessoaPrisma } from '@prisma/client';
 import { Public } from 'src/auth/guard/public.route';
 
 @ApiTags('pessoas')
@@ -87,7 +88,7 @@ export class PessoasController {
     @Body() updatePessoaDto: UpdatePessoaDto,
   ) {
     return this.sanitizePessoa(
-      this.pessoasService.update(+id, updatePessoaDto),
+      await this.pessoasService.update(+id, updatePessoaDto),
     );
   }
 
@@ -107,7 +108,7 @@ export class PessoasController {
     return this.sanitizePessoa(pessoaDeleted);
   }
 
-  private sanitizePessoa(pessoa: any): Pessoa {
+  private sanitizePessoa(pessoa: PessoaPrisma): Pessoa {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { Senha, ...sanitizedPessoa } = pessoa;
     return sanitizedPessoa;

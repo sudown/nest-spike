@@ -2,7 +2,6 @@ import { Injectable, Inject } from '@nestjs/common';
 import { UpdatePessoaDto } from './dto/update-pessoa.dto';
 import { PessoasRepository } from '../repositories/pessoas.repository';
 import { Pessoa, Prisma } from '@prisma/client';
-import { PessoaResponseDto } from '../pessoas/dto/response-pessoa.dto';
 import * as winston from 'winston';
 
 @Injectable()
@@ -16,7 +15,7 @@ export class PessoasService {
     return this.pessoasRepository.create(data);
   }
 
-  async findAll(): Promise<PessoaResponseDto[]> {
+  async findAll(): Promise<Pessoa[]> {
     const pessoas = await this.pessoasRepository.findAll();
     return pessoas;
   }
@@ -41,7 +40,7 @@ export class PessoasService {
     return this.pessoasRepository.update(Id, updatePessoaDto);
   }
 
-  async remove(Id: number): Promise<PessoaResponseDto> {
+  async remove(Id: number): Promise<Pessoa> {
     const pessoa = await this.pessoasRepository.delete(Id);
 
     return pessoa;
