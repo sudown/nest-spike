@@ -34,6 +34,14 @@ export class PessoasService {
     return this.removeSensitiveData(pessoa);
   }
 
+  async findByEmail(Email: string): Promise<Pessoa | null> {
+    const pessoa = await this.pessoasRepository.findByEmail(Email);
+
+    if (!pessoa) return null;
+
+    return this.removeSensitiveData(pessoa);
+  }
+
   async update(Id: number, updatePessoaDto: UpdatePessoaDto): Promise<Pessoa> {
     return this.pessoasRepository.update(Id, updatePessoaDto);
   }

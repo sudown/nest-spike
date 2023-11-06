@@ -22,6 +22,13 @@ export class PessoasRepository {
     });
   }
 
+  async findByEmail(email: string): Promise<Pessoa | null> {
+    return await this.prisma.pessoa.findFirst({
+      where: {
+        Email: email,
+      },
+    });
+  }
   async update(
     Id: number,
     updatePessoaDto: Prisma.PessoaUpdateInput,

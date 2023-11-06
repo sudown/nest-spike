@@ -9,8 +9,8 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signIn(id: number, pass: string) {
-    const pessoa = await this.pessoasService.findOne(id);
+  async signIn(email: string, pass: string) {
+    const pessoa = await this.pessoasService.findByEmail(email);
 
     if (!pessoa) return null;
 

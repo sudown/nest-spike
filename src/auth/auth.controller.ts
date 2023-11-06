@@ -10,7 +10,7 @@ import {
 
 class SignInRequestDto {
   @ApiProperty()
-  Id: number;
+  Email: string;
   @ApiProperty()
   Senha: string;
 }
@@ -43,6 +43,6 @@ export class AuthController {
   })
   @Post('login')
   signIn(@Body() body: SignInRequestDto) {
-    return this.authService.signIn(body.Id, body.Senha);
+    return this.authService.signIn(body.Email, body.Senha);
   }
 }
