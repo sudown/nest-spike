@@ -18,12 +18,7 @@ export class PessoasService {
 
   async findAll(): Promise<PessoaResponseDto[]> {
     const pessoas = await this.pessoasRepository.findAll();
-
-    const pessoasSemSenha: PessoaResponseDto[] = pessoas.map((pessoa) =>
-      this.removeSensitiveData(pessoa),
-    );
-
-    return pessoasSemSenha;
+    return pessoas;
   }
 
   async findOne(Id: number): Promise<Pessoa | null> {
@@ -31,7 +26,7 @@ export class PessoasService {
 
     if (!pessoa) return null;
 
-    return this.removeSensitiveData(pessoa);
+    return pessoa;
   }
 
   async findByEmail(Email: string): Promise<Pessoa | null> {
@@ -39,7 +34,7 @@ export class PessoasService {
 
     if (!pessoa) return null;
 
-    return this.removeSensitiveData(pessoa);
+    return pessoa;
   }
 
   async update(Id: number, updatePessoaDto: UpdatePessoaDto): Promise<Pessoa> {
@@ -49,11 +44,6 @@ export class PessoasService {
   async remove(Id: number): Promise<PessoaResponseDto> {
     const pessoa = await this.pessoasRepository.delete(Id);
 
-    return this.removeSensitiveData(pessoa);
-  }
-
-  // Função para remover a senha de um objeto PessoaResponseDto
-  private removeSensitiveData(pessoa: Pessoa): Pessoa {
     return pessoa;
   }
 }

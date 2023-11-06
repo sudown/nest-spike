@@ -50,8 +50,9 @@ export class PessoasController {
     description: 'Lista de pessoas',
     type: [Pessoa],
   })
-  findAll() {
-    return this.pessoasService.findAll();
+  async findAll() {
+    const pessoas = await this.pessoasService.findAll();
+    return pessoas.map((pessoa) => this.sanitizePessoa(pessoa));
   }
 
   @Get(':id')
@@ -65,8 +66,8 @@ export class PessoasController {
     status: 404,
     description: 'Pessoa não encontrada',
   })
-  findOne(@Param('id') id: string) {
-    return this.pessoasService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return this.sanitizePessoa(await this.pessoasService.findOne(+id));
   }
 
   @ApiOperation({ summary: 'Atualizar uma pessoa' })
@@ -81,8 +82,13 @@ export class PessoasController {
     description: 'Pessoa não encontrada',
   })
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePessoaDto: UpdatePessoaDto) {
-    return this.pessoasService.update(+id, updatePessoaDto);
+  async update(
+    @Param('id') id: string,
+    @Body() updatePessoaDto: UpdatePessoaDto,
+  ) {
+    return this.sanitizePessoa(
+      this.pessoasService.update(+id, updatePessoaDto),
+    );
   }
 
   @ApiOperation({ summary: 'Deletar uma pessoa' })
@@ -96,7 +102,14 @@ export class PessoasController {
     description: 'Pessoa não encontrada',
   })
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.pessoasService.remove(+id);
+  async remove(@Param('id') id: string) {
+    const pessoaDeleted = await this.pessoasService.remove(+id);
+    return this.sanitizePessoa(pessoaDeleted);
+  }
+
+  private sanitizePessoa(pessoa: any): Pessoa {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { Senha, ...sanitizedPessoa } = pessoa;
+    return sanitizedPessoa;
   }
 }
