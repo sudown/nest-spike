@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
 datasource db {
@@ -71,6 +72,7 @@ model Pessoa {
   Email           String
   Tipo            String
   XP              Int               @default(10)
+  Canal           String?           @default("")
   possui          Possui[]
   cursa           Cursa[]
   patente         Patente?          @relation(fields: [patenteId], references: [Id])
@@ -78,6 +80,7 @@ model Pessoa {
   AulaProgresso   AulaProgresso[]
   ModuloProgresso ModuloProgresso[]
   CursoProgresso  CursoProgresso[]
+  Curso           Curso[]
 }
 
 // Definição do modelo Patente
@@ -112,15 +115,19 @@ model Curso {
   Id             Int              @id @default(autoincrement())
   Titulo         String
   Descricao      String
+  CriadorId      Int
   Modulo         Modulo[]
   Cursa          Cursa[]
   CursoProgresso CursoProgresso[]
+  pessoa         Pessoa           @relation(fields: [CriadorId], references: [Id])
 }
 
 model AulaProgresso {
-  idAula    Int
-  idPessoa  Int
-  concluido Boolean
+  idAula     Int
+  idPessoa   Int
+  concluido  Boolean
+  DataInicio DateTime
+  DataFim    DateTime
 
   aula   Aula   @relation(fields: [idAula], references: [Id])
   pessoa Pessoa @relation(fields: [idPessoa], references: [Id])
@@ -129,9 +136,11 @@ model AulaProgresso {
 }
 
 model ModuloProgresso {
-  idModulo  Int
-  idPessoa  Int
-  concluido Boolean
+  idModulo   Int
+  idPessoa   Int
+  concluido  Boolean
+  DataInicio DateTime
+  DataFim    DateTime
 
   modulo Modulo @relation(fields: [idModulo], references: [Id])
   pessoa Pessoa @relation(fields: [idPessoa], references: [Id])
@@ -140,9 +149,11 @@ model ModuloProgresso {
 }
 
 model CursoProgresso {
-  idCurso   Int
-  idPessoa  Int
-  concluido Boolean
+  idCurso    Int
+  idPessoa   Int
+  concluido  Boolean
+  DataInicio DateTime
+  DataFim    DateTime
 
   curso  Curso  @relation(fields: [idCurso], references: [Id])
   pessoa Pessoa @relation(fields: [idPessoa], references: [Id])

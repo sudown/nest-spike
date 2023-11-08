@@ -3,8 +3,10 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class CreatePessoaDto {
   @ApiProperty()
+  @IsString()
   Nome: string;
   @ApiProperty()
+  @IsEmail()
   @IsEmail()
   Email: string;
   @ApiProperty()
@@ -15,4 +17,6 @@ export class CreatePessoaDto {
   Tipo: string;
   @ApiProperty({ required: false })
   XP?: number;
+  @ApiProperty({ required: false })
+  Canal?: string;
 }
