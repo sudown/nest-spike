@@ -20,6 +20,11 @@ class AuthResponseDto {
   access_token: string;
 }
 
+class RefreshRequest {
+  @ApiProperty()
+  access_token: string;
+}
+
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
@@ -44,5 +49,25 @@ export class AuthController {
   @Post('login')
   signIn(@Body() body: SignInRequestDto) {
     return this.authService.signIn(body.Email, body.Senha);
+  }
+
+  @ApiOperation({ summary: 'Atualizar token' })
+  @ApiResponse({
+    status: 200,
+    description: 'Usuário autenticado',
+    type: AuthResponseDto,
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Credenciais inválidas',
+    content: {
+      'application/json': {
+        schema: { example: { message: 'Unauthorized', statusCode: 401 } },
+      },
+    },
+  })
+  @Post('RefreshToken')
+  refreshToken(@Body() body: RefreshRequest) {
+    return this.authService.refreshToken(body.access_token);
   }
 }

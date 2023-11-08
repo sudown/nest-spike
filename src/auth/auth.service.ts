@@ -25,4 +25,16 @@ export class AuthService {
 
     return pessoa;
   }
+
+  async refreshToken(token: string) {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { iat, exp, ...payload } = await this.jwtService.verifyAsync(token);
+      return {
+        access_token: await this.jwtService.signAsync(payload),
+      };
+    } catch {
+      throw new UnauthorizedException();
+    }
+  }
 }
