@@ -25,6 +25,7 @@ model Aula {
   Id            Int             @id @default(autoincrement())
   Descricao     String
   Xp            Int?
+  UrlVideo      String
   modulo        Modulo          @relation(fields: [fk_modulo_id], references: [Id])
   fk_modulo_id  Int
   feedback      Feedback[]
