@@ -19,4 +19,6 @@ export class CreatePessoaDto {
   XP?: number;
   @ApiProperty({ required: false })
   Canal: string;
+  @ApiProperty({ required: false })
+  patenteId?: string;
 }

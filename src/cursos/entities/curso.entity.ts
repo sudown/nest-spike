@@ -7,4 +7,6 @@ export class Curso {
   Descricao: string;
   @ApiProperty()
   CriadorId: number;
+  @ApiProperty()
+  Duracao: number;
 }

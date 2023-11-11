@@ -10,7 +10,9 @@ export class CreateCursoDto {
   Descricao: string;
   @ApiProperty()
   @IsNumber()
+  Duracao: number;
+  @ApiProperty()
+  @IsNumber()
   CriadorId: number;
-  @ApiProperty({ required: false })
   pessoa: any; //achar o tipo depois
 }
