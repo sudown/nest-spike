@@ -24,8 +24,9 @@ model Insignia {
 model Aula {
   Id            Int             @id @default(autoincrement())
   Descricao     String
-  Xp            Int?
+  XP            Int?
   UrlVideo      String
+  Duracao       Int
   modulo        Modulo          @relation(fields: [fk_modulo_id], references: [Id])
   fk_modulo_id  Int
   feedback      Feedback[]
@@ -36,11 +37,14 @@ model Aula {
 
 // Definição do modelo Feedback
 model Feedback {
-  Id         Int    @id @default(autoincrement())
+  Id         Int      @id @default(autoincrement())
   Avaliacao  Int
   Comentario String
   fk_Aula_Id Int
-  aula       Aula   @relation(fields: [fk_Aula_Id], references: [Id])
+  Data       DateTime
+  PessoaId   Int // Adicionando o campo para armazenar o Id da pessoa
+  aula       Aula     @relation(fields: [fk_Aula_Id], references: [Id])
+  pessoa     Pessoa   @relation(fields: [PessoaId], references: [Id])
 }
 
 // Definição do modelo Materiais
@@ -82,6 +86,7 @@ model Pessoa {
   ModuloProgresso ModuloProgresso[]
   CursoProgresso  CursoProgresso[]
   Curso           Curso[]
+  Feedback        Feedback[]
 }
 
 // Definição do modelo Patente
@@ -116,6 +121,8 @@ model Curso {
   Id             Int              @id @default(autoincrement())
   Titulo         String
   Descricao      String
+  XP             Int?             @default(0)
+  Duracao        Int?             @default(0)
   CriadorId      Int
   Modulo         Modulo[]
   Cursa          Cursa[]

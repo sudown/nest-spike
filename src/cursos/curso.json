@@ -1,0 +1,41 @@
+{
+  "Curso": {
+    "Id": 1,
+    "Ditulo": "Curso de Programação",
+    "Descricao": "Um curso introdutório de programação",
+    "CriadorId": 1,
+    "Modulos": [
+      {
+        "Id": 101,
+        "Titulo": "Módulo 1: Introdução",
+        "Descricao": "O módulo de introdução ao curso",
+        "Sequencia": 1,
+        "Aulas": [
+          {
+            "Id": 10101,
+            "Descricao": "Aula 1: Introdução ao curso",
+            "Xp": 10,
+            "Sequencia": 1,
+            "UrlVideo": "https://www.youtube.com/watch?v=9cKsq14Kfsw",
+            "Materias": [
+              {
+                "Id": 1010101,
+                "Nome": "PDF de introdução ao curso",
+                "Tipo": "PDF",
+                "URL": "https://www.youtube.com/watch?v=9cKsq14Kfsw"
+              }
+            ],
+            "Feedback": [
+              {
+                "Id": 101010101,
+                "Avaliacao": 1,
+                "Comentario": "Muito bom o curso, recomendo!",
+                "Data": "2019-01-01T00:00:00.000Z"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

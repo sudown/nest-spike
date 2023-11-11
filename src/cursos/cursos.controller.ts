@@ -112,4 +112,18 @@ export class CursosController {
   remove(@Param('id') id: string) {
     return this.cursosService.remove(+id);
   }
+  @Get('return/:id')
+  @ApiOperation({ summary: 'Retornar um curso' })
+  @ApiResponse({
+    status: 200,
+    description: 'Curso retornado com sucesso',
+    type: Curso,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Curso não encontrado',
+  })
+  async return(@Param('id') id: string) {
+    return id;
+  }
 }
