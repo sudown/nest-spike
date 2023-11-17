@@ -7,6 +7,10 @@ export class Pessoa {
   @ApiProperty()
   Email: string;
   @ApiProperty()
+  Username: string;
+  @ApiProperty({ required: false })
+  Canal: string;
+  @ApiProperty()
   Tipo: string;
   @ApiProperty()
   XP?: number;

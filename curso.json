@@ -3,6 +3,7 @@
     "Id": 1,
     "Ditulo": "Curso de Programação",
     "Descricao": "Um curso introdutório de programação",
+    "Duracao": 10,
     "CriadorId": 1,
     "Modulos": [
       {
@@ -14,10 +15,11 @@
           {
             "Id": 10101,
             "Descricao": "Aula 1: Introdução ao curso",
-            "Xp": 10,
+            "XP": 10,
             "Sequencia": 1,
+            "Duracao": 10,
             "UrlVideo": "https://www.youtube.com/watch?v=9cKsq14Kfsw",
-            "Materias": [
+            "Materiais": [
               {
                 "Id": 1010101,
                 "Nome": "PDF de introdução ao curso",
@@ -30,7 +32,8 @@
                 "Id": 101010101,
                 "Avaliacao": 1,
                 "Comentario": "Muito bom o curso, recomendo!",
-                "Data": "2019-01-01T00:00:00.000Z"
+                "Data": "2019-01-01T00:00:00.000Z",
+                "PessoaId": 1
               }
             ]
           }

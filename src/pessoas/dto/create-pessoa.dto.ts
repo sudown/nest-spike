@@ -14,6 +14,9 @@ export class CreatePessoaDto {
   Senha: string;
   @ApiProperty()
   @IsString()
+  Username: string;
+  @ApiProperty()
+  @IsString()
   Tipo: string;
   @ApiProperty({ required: false })
   XP?: number;

@@ -76,6 +76,7 @@ model Pessoa {
   Senha           String
   Email           String
   Tipo            String
+  Username        String            @default("")
   XP              Int               @default(10)
   Canal           String?           @default("")
   possui          Possui[]
