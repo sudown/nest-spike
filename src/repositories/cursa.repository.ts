@@ -27,6 +27,21 @@ export class CursaRepository {
     });
   }
 
+  async findByPessoaId(PessoaId: number): Promise<Cursa[]> {
+    return this.prisma.cursa.findMany({
+      where: { fk_Pessoa_Id: PessoaId },
+    });
+  }
+
+  async findByPessoaIdAndCursoId(
+    PessoaId: number,
+    CursoId: number,
+  ): Promise<Cursa[]> {
+    return this.prisma.cursa.findMany({
+      where: { fk_Pessoa_Id: PessoaId, fk_Curso_Id: CursoId },
+    });
+  }
+
   async delete(Id: number): Promise<Cursa> {
     return this.prisma.cursa.delete({
       where: { Id },
