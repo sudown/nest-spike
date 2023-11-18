@@ -6,6 +6,7 @@ import { PessoasModule } from './pessoas/pessoas.module';
 import { PatentesModule } from './patentes/patentes.module';
 import { AuthModule } from './auth/auth.module';
 import { CursosModule } from './cursos/cursos.module';
+import { CursaModule } from './cursa/cursa.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { CursosModule } from './cursos/cursos.module';
     PatentesModule,
     AuthModule,
     CursosModule,
+    CursaModule,
   ],
   controllers: [AppController],
   providers: [AppService],
