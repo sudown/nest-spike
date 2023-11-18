@@ -1,11 +1,25 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber } from 'class-validator';
+// import { Curso } from 'src/cursos/entities/curso.entity';
+// import { Pessoa } from 'src/pessoas/entities/pessoa.entity';
+
+class Connect {
+  @ApiProperty()
+  Id: number;
+}
+
+class PessoaS {
+  @ApiProperty()
+  connect: Connect;
+}
+
+class CursoS {
+  @ApiProperty()
+  connect: Connect;
+}
 
 export class CreateCursaDto {
   @ApiProperty()
-  @IsNumber()
-  pessoaId: number;
+  pessoa: PessoaS;
   @ApiProperty()
-  @IsNumber()
-  cursoId: number;
+  curso: CursoS;
 }

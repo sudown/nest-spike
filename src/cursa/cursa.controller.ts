@@ -11,12 +11,7 @@ import { CursaService } from './cursa.service';
 import { CreateCursaDto } from './dto/create-cursa.dto';
 import { Prisma } from '@prisma/client';
 import winston from 'winston';
-import {
-  ApiOperation,
-  ApiProperty,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Cursa } from './entities/cursa.entity';
 
 @ApiTags('cursa')
@@ -29,7 +24,7 @@ export class CursaController {
 
   @Post()
   @ApiOperation({ summary: 'Inserir pessoa em curso' })
-  @ApiProperty({ type: CreateCursaDto })
+  @ApiBody({ type: CreateCursaDto })
   @ApiResponse({
     status: 201,
     description: 'Pessoa inserida em curso com sucesso',
