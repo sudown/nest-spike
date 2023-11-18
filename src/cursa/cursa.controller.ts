@@ -53,4 +53,11 @@ export class CursaController {
   remove(@Param('id') id: string) {
     return this.cursaService.remove(+id);
   }
+  @Delete(':pessoaId/:cursoId')
+  removeByPessoaIdAndCursoId(
+    @Param('pessoaId') pessoaId: string,
+    @Param('cursoId') cursoId: string,
+  ) {
+    return this.cursaService.removeByPessoaIdAndCursoId(+pessoaId, +cursoId);
+  }
 }

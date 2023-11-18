@@ -47,4 +47,14 @@ export class CursaRepository {
       where: { Id },
     });
   }
+
+  async deleteByPessoaIdAndCursoId(
+    PessoaId: number,
+    CursoId: number,
+  ): Promise<Cursa> {
+    const curso = await this.findByPessoaIdAndCursoId(PessoaId, CursoId);
+    return this.prisma.cursa.delete({
+      where: { Id: curso[0].Id },
+    });
+  }
 }

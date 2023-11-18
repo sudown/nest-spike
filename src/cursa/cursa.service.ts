@@ -45,4 +45,11 @@ export class CursaService {
   async remove(Id: number): Promise<Cursa> {
     return this.cursaRepository.delete(Id);
   }
+
+  async removeByPessoaIdAndCursoId(
+    PessoaId: number,
+    CursoId: number,
+  ): Promise<Cursa> {
+    return this.cursaRepository.deleteByPessoaIdAndCursoId(PessoaId, CursoId);
+  }
 }
