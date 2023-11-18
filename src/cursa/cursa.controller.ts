@@ -8,10 +8,18 @@ import {
   Inject,
 } from '@nestjs/common';
 import { CursaService } from './cursa.service';
-// import { CreateCursaDto } from './dto/create-cursa.dto';
+import { CreateCursaDto } from './dto/create-cursa.dto';
 import { Prisma } from '@prisma/client';
 import winston from 'winston';
+import {
+  ApiOperation,
+  ApiProperty,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { Cursa } from './entities/cursa.entity';
 
+@ApiTags('cursa')
 @Controller('cursa')
 export class CursaController {
   constructor(
@@ -20,20 +28,32 @@ export class CursaController {
   ) {}
 
   @Post()
+  @ApiOperation({ summary: 'Inserir pessoa em curso' })
+  @ApiProperty({ type: CreateCursaDto })
+  @ApiResponse({
+    status: 201,
+    description: 'Pessoa inserida em curso com sucesso',
+  })
   create(@Body() createCursaDto: Prisma.CursaCreateInput) {
     return this.cursaService.create(createCursaDto);
   }
 
+  @ApiOperation({ summary: 'Listar todas as pessoas em cursos' })
+  @ApiResponse({
+    status: 200,
+    description: 'Lista de pessoas em cursos',
+    type: [Cursa],
+  })
   @Get()
   findAll() {
     return this.cursaService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.cursaService.findOne(+id);
-  }
-
+  @ApiOperation({ summary: 'Remover uma pessoa de um curso' })
+  @ApiResponse({
+    status: 200,
+    description: 'Pessoa removida de curso com sucesso',
+  })
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.cursaService.remove(+id);
