@@ -7,6 +7,7 @@ import { PatentesModule } from './patentes/patentes.module';
 import { AuthModule } from './auth/auth.module';
 import { CursosModule } from './cursos/cursos.module';
 import { CursaModule } from './cursa/cursa.module';
+import { ModulosModule } from './modulos/modulos.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { CursaModule } from './cursa/cursa.module';
     AuthModule,
     CursosModule,
     CursaModule,
+    ModulosModule,
   ],
   controllers: [AppController],
   providers: [AppService],
