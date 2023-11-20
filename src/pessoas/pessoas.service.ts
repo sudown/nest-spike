@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import { UpdatePessoaDto } from './dto/update-pessoa.dto';
 import { PessoasRepository } from '../repositories/pessoas.repository';
 import { Pessoa, Prisma } from '@prisma/client';
+import { generateHash } from 'src/helpers/generatePassword';
 import * as winston from 'winston';
 
 @Injectable()
@@ -12,6 +13,8 @@ export class PessoasService {
   ) {}
 
   async create(data: Prisma.PessoaCreateInput): Promise<Pessoa> {
+    const passwordHash = await generateHash(data.Senha);
+    data.Senha = passwordHash;
     return this.pessoasRepository.create(data);
   }
 

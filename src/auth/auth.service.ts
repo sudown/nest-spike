@@ -1,6 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PessoasService } from 'src/pessoas/pessoas.service';
 import { JwtService } from '@nestjs/jwt';
+import { comparePassword } from 'src/helpers/comparePassword';
 
 @Injectable()
 export class AuthService {
@@ -15,7 +16,7 @@ export class AuthService {
     if (!pessoa) {
       throw new UnauthorizedException('Usuário não encontrado');
     }
-    if (pessoa.Senha !== pass) {
+    if (!(await comparePassword(pass, pessoa.Senha))) {
       throw new UnauthorizedException('Usuário ou senha inválidos');
     }
 
