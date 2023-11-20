@@ -42,7 +42,12 @@ export class AuthController {
     description: 'Credenciais inválidas',
     content: {
       'application/json': {
-        schema: { example: { message: 'Unauthorized', statusCode: 401 } },
+        schema: {
+          example: {
+            message: 'Usuario não encontrado / Usuário ou senha inválidos',
+            statusCode: 401,
+          },
+        },
       },
     },
   })
@@ -69,5 +74,24 @@ export class AuthController {
   @Post('RefreshToken')
   refreshToken(@Body() body: RefreshRequest) {
     return this.authService.refreshToken(body.access_token);
+  }
+
+  @ApiOperation({ summary: 'Validar token' })
+  @ApiResponse({
+    status: 200,
+    description: 'Token válido',
+    content: {
+      'application/json': {
+        schema: { example: { message: 'Token is valid', statusCode: 201 } },
+      },
+    },
+  })
+  @Post('ValidateToken')
+  async alidateToken(@Body() body: RefreshRequest) {
+    const result = await this.authService.validateUser(body.access_token);
+    return {
+      message: result.message,
+      statusCode: result.statusCode,
+    };
   }
 }

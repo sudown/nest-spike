@@ -12,10 +12,11 @@ export class AuthService {
   async signIn(email: string, pass: string) {
     const pessoa = await this.pessoasService.findByEmail(email);
 
-    if (!pessoa) return null;
-
+    if (!pessoa) {
+      throw new UnauthorizedException('Usuário não encontrado');
+    }
     if (pessoa.Senha !== pass) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Usuário ou senha inválidos');
     }
 
     const payload = { Id: pessoa.Id, Nome: pessoa.Nome };
@@ -32,6 +33,21 @@ export class AuthService {
       const { iat, exp, ...payload } = await this.jwtService.verifyAsync(token);
       return {
         access_token: await this.jwtService.signAsync(payload),
+      };
+    } catch {
+      throw new UnauthorizedException();
+    }
+  }
+
+  async validateUser(
+    token: string,
+  ): Promise<{ message: string; statusCode: number }> {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { iat, exp, ...payload } = await this.jwtService.verifyAsync(token);
+      return {
+        message: 'Token is valid',
+        statusCode: 201,
       };
     } catch {
       throw new UnauthorizedException();
