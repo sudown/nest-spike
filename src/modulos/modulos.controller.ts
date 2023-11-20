@@ -29,7 +29,7 @@ export class ModulosController {
     description: 'Requisição inválida',
   })
   @Post()
-  create(@Body() createModuloDto: Prisma.ModuloCreateInput) {
+  create(@Body() createModuloDto: CreateModuloDto) {
     return this.modulosService.create(createModuloDto);
   }
 

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsNumber, IsString } from 'class-validator';
 
 class Connect {
   @ApiProperty()
@@ -19,7 +19,7 @@ export class CreateModuloDto {
   @IsString()
   Descricao: string;
   @ApiProperty()
-  @IsString()
+  @IsNumber()
   Sequencia: number;
   @ApiProperty()
   curso: CursoS;
