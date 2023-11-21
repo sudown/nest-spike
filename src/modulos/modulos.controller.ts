@@ -66,8 +66,8 @@ export class ModulosController {
     type: [Modulo],
   })
   @ApiResponse({
-    status: 404,
-    description: 'Curso não encontrado',
+    status: 204,
+    description: 'Não existem módulos para o curso informado',
   })
   @Get('cursoId/:fkCursoId')
   async getModulosByCursoId(
