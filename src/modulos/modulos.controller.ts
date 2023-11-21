@@ -1,17 +1,17 @@
 import {
   Controller,
-  // Get,
+  Get,
   Post,
   Body,
-  // Patch,
-  // Param,
-  // Delete,
+  Param,
+  Res,
+  HttpStatus,
 } from '@nestjs/common';
 import { ModulosService } from './modulos.service';
 import { CreateModuloDto } from './dto/create-modulo.dto';
-// import { UpdateModuloDto } from './dto/update-modulo.dto';
-import { Prisma } from '@prisma/client';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Modulo } from './entities/modulo.entity';
+import { Response } from 'express';
 
 @ApiTags('Modulos')
 @Controller('modulos')
@@ -33,16 +33,57 @@ export class ModulosController {
     return this.modulosService.create(createModuloDto);
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.modulosService.findAll();
-  // }
+  @ApiOperation({ summary: 'Listar todos os modulos' })
+  @ApiResponse({
+    status: 200,
+    description: 'Módulos listados com sucesso',
+    type: [Modulo],
+  })
+  @Get()
+  findAll() {
+    return this.modulosService.findAll();
+  }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.modulosService.findOne(+id);
-  // }
+  @ApiOperation({ summary: 'Listar um módulo' })
+  @ApiResponse({
+    status: 200,
+    description: 'Módulo listado com sucesso',
+    type: Modulo,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Módulo não encontrado',
+  })
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.modulosService.findOne(+id);
+  }
 
+  @ApiOperation({ summary: 'Listar todos os módulos de um curso' })
+  @ApiResponse({
+    status: 200,
+    description: 'Módulos listados com sucesso',
+    type: [Modulo],
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Curso não encontrado',
+  })
+  @Get('cursoId/:fkCursoId')
+  async getModulosByCursoId(
+    @Res() res: Response,
+    @Param('fkCursoId') fkCursoId: string,
+  ) {
+    const modulos: Modulo[] = await this.modulosService.getModulosByCursoId(
+      +fkCursoId,
+    );
+    if (modulos.length === 0) {
+      return res.status(HttpStatus.NO_CONTENT).json({
+        msg: 'Não existem módulos para o curso informado',
+      });
+    }
+    return res.status(HttpStatus.OK).json(modulos);
+  }
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateModuloDto: UpdateModuloDto) {
   //   return this.modulosService.update(+id, updateModuloDto);

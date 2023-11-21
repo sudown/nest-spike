@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 // import { CreateModuloDto } from './dto/create-modulo.dto';
 // import { UpdateModuloDto } from './dto/update-modulo.dto';
 import { Prisma } from '@prisma/client';
-import { ModuloRepository } from 'src/repositories/modulo.repository';
+import { ModuloRepository } from 'src/repositories/modulos.repository';
 import winston from 'winston';
 
 @Injectable()
@@ -15,13 +15,17 @@ export class ModulosService {
     return this.modulosRepository.create(createModuloDto);
   }
 
-  // findAll() {
-  //   return `This action returns all modulos`;
-  // }
+  findAll() {
+    return this.modulosRepository.findAll();
+  }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} modulo`;
-  // }
+  findOne(id: number) {
+    return this.modulosRepository.findOne(id);
+  }
+
+  getModulosByCursoId(fkCursoId: number) {
+    return this.modulosRepository.getModulosByCursoId(fkCursoId);
+  }
 
   // update(id: number, updateModuloDto: UpdateModuloDto) {
   //   return `This action updates a #${id} modulo`;
