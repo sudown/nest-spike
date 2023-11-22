@@ -27,4 +27,11 @@ export class ModuloRepository {
       where: { fkCursoId },
     });
   }
+
+  async update(Id: number, data: Prisma.ModuloUpdateInput) {
+    return this.prisma.modulo.update({
+      where: { Id },
+      data,
+    });
+  }
 }

@@ -6,12 +6,14 @@ import {
   Param,
   Res,
   HttpStatus,
+  Patch,
 } from '@nestjs/common';
 import { ModulosService } from './modulos.service';
 import { CreateModuloDto } from './dto/create-modulo.dto';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Modulo } from './entities/modulo.entity';
 import { Response } from 'express';
+import { UpdateModuloDto } from './dto/update-modulo.dto';
 
 @ApiTags('Modulos')
 @Controller('modulos')
@@ -78,16 +80,36 @@ export class ModulosController {
       +fkCursoId,
     );
     if (modulos.length === 0) {
-      return res.status(HttpStatus.NO_CONTENT).json({
-        msg: 'Não existem módulos para o curso informado',
-      });
+      return res.status(HttpStatus.NO_CONTENT);
     }
     return res.status(HttpStatus.OK).json(modulos);
   }
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateModuloDto: UpdateModuloDto) {
-  //   return this.modulosService.update(+id, updateModuloDto);
-  // }
+
+  @ApiOperation({ summary: 'Atualizar informações de um modulo' })
+  @ApiResponse({
+    status: 200,
+    description: 'Módulo atualizado com sucesso',
+    type: Modulo,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Módulo com {Id} não encontrado',
+    content: {
+      'application/json': {
+        schema: {
+          example: {
+            message: 'Módulo com Id 122 não encontrado',
+            error: 'Not Found',
+            statusCode: 404,
+          },
+        },
+      },
+    },
+  })
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateModuloDto: UpdateModuloDto) {
+    return this.modulosService.update(+id, updateModuloDto);
+  }
 
   // @Delete(':id')
   // remove(@Param('id') id: string) {
