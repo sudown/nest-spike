@@ -40,7 +40,17 @@ export class ModulosService {
     }
   }
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} modulo`;
-  // }
+  async remove(id: number) {
+    try {
+      const modulo = await this.findOne(id);
+      this.logger.debug(modulo);
+      if (!modulo) {
+        throw new NotFoundException(`Módulo com Id ${id} não encontrado`);
+      }
+      return this.modulosRepository.delete(id);
+    } catch (error) {
+      this.logger.error(error.message);
+      throw error;
+    }
+  }
 }

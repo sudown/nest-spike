@@ -7,6 +7,7 @@ import {
   Res,
   HttpStatus,
   Patch,
+  Delete,
 } from '@nestjs/common';
 import { ModulosService } from './modulos.service';
 import { CreateModuloDto } from './dto/create-modulo.dto';
@@ -111,8 +112,29 @@ export class ModulosController {
     return this.modulosService.update(+id, updateModuloDto);
   }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.modulosService.remove(+id);
-  // }
+  @ApiOperation({ summary: 'Remover um módulo' })
+  @ApiResponse({
+    status: 200,
+    description: 'Módulo removido com sucesso',
+    type: Modulo,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Módulo com {Id} não encontrado',
+    content: {
+      'application/json': {
+        schema: {
+          example: {
+            message: 'Módulo com {id} não encontrado',
+            error: 'Not Found',
+            statusCode: 404,
+          },
+        },
+      },
+    },
+  })
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.modulosService.remove(+id);
+  }
 }

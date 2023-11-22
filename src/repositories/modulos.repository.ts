@@ -34,4 +34,10 @@ export class ModuloRepository {
       data,
     });
   }
+
+  async delete(Id: number): Promise<Modulo> {
+    return this.prisma.modulo.delete({
+      where: { Id },
+    });
+  }
 }
