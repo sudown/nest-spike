@@ -1,15 +1,15 @@
 import {
   Controller,
-  Get,
+  // Get,
   Post,
   Body,
-  Patch,
-  Param,
-  Delete,
+  // Patch,
+  // Param,
+  // Delete,
 } from '@nestjs/common';
 import { AulasService } from './aulas.service';
 import { CreateAulaDto } from './dto/create-aula.dto';
-import { UpdateAulaDto } from './dto/update-aula.dto';
+// import { UpdateAulaDto } from './dto/update-aula.dto';
 import {
   ApiOperation,
   ApiProperty,
@@ -28,32 +28,29 @@ export class AulasController {
     status: 201,
     description: 'Aula criada com sucesso',
   })
-  @ApiResponse({
-    status: 400,
-    description: 'Requisição inválida',
-  })
+  @ApiResponse({ status: 404, description: 'Módulo com {Id} não encontrado' })
   @Post()
   create(@Body() createAulaDto: CreateAulaDto) {
     return this.aulasService.create(createAulaDto);
   }
 
-  @Get()
-  findAll() {
-    return this.aulasService.findAll();
-  }
+  // @Get()
+  // findAll() {
+  //   return this.aulasService.findAll();
+  // }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.aulasService.findOne(+id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.aulasService.findOne(+id);
+  // }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAulaDto: UpdateAulaDto) {
-    return this.aulasService.update(+id, updateAulaDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateAulaDto: UpdateAulaDto) {
+  //   return this.aulasService.update(+id, updateAulaDto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.aulasService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.aulasService.remove(+id);
+  // }
 }
