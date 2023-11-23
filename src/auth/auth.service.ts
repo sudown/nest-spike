@@ -20,7 +20,9 @@ export class AuthService {
       throw new UnauthorizedException('Usuário ou senha inválidos');
     }
 
-    const payload = { Id: pessoa.Id, Nome: pessoa.Nome };
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { Senha, ...result } = pessoa;
+    const payload = { result };
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
