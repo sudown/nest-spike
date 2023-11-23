@@ -13,5 +13,4 @@ export class CreateAulaDto {
   Duracao: number;
   @ApiProperty({ required: false })
   XP?: number;
-  modulo: any;
 }
