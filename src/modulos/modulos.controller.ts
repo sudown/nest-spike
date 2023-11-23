@@ -77,12 +77,11 @@ export class ModulosController {
     @Res() res: Response,
     @Param('fkCursoId') fkCursoId: string,
   ) {
-    const modulos: Modulo[] = await this.modulosService.getModulosByCursoId(
-      +fkCursoId,
-    );
+    const modulos = await this.modulosService.getModulosByCursoId(+fkCursoId);
     if (modulos.length === 0) {
-      return res.status(HttpStatus.NO_CONTENT);
+      return res.status(HttpStatus.NO_CONTENT).json();
     }
+
     return res.status(HttpStatus.OK).json(modulos);
   }
 
