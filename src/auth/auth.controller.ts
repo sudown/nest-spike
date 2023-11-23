@@ -86,6 +86,15 @@ export class AuthController {
       },
     },
   })
+  @ApiResponse({
+    status: 401,
+    description: 'Token inválido',
+    content: {
+      'application/json': {
+        schema: { example: { message: 'Unauthorized', statusCode: 401 } },
+      },
+    },
+  })
   @Post('ValidateToken')
   async alidateToken(@Body() body: RefreshRequest) {
     const result = await this.authService.validateUser(body.access_token);
