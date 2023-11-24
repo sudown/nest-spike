@@ -1,8 +1,11 @@
 import {
   Controller,
-  // Get,
+  Get,
   Post,
   Body,
+  Param,
+  Patch,
+  Delete,
   // Patch,
   // Param,
   // Delete,
@@ -16,6 +19,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { UpdateAulaDto } from './dto/update-aula.dto';
 
 @ApiTags('aulas')
 @Controller('aulas')
@@ -34,10 +38,30 @@ export class AulasController {
     return this.aulasService.create(createAulaDto);
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.aulasService.findAll();
-  // }
+  @Get()
+  findAll() {
+    return this.aulasService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.aulasService.findOne(+id);
+  }
+
+  @Get(':moduloId/fk_modulo_id')
+  getAulasByModuloId(@Param('moduloId') moduloId: string) {
+    return this.aulasService.getAulasByModuloId(+moduloId);
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() data: UpdateAulaDto) {
+    return this.aulasService.update(+id, data);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.aulasService.remove(+id);
+  }
 
   // @Get(':id')
   // findOne(@Param('id') id: string) {

@@ -5,6 +5,7 @@ import { AulasRepository } from 'src/repositories/aulas.repository';
 import { ModuloRepository } from 'src/repositories/modulos.repository';
 import winston from 'winston';
 import { CreateAulaDto } from './dto/create-aula.dto';
+import { UpdateAulaDto } from './dto/update-aula.dto';
 
 @Injectable()
 export class AulasService {
@@ -34,19 +35,47 @@ export class AulasService {
     return this.aulasRepository.create(data);
   }
 
-  // findAll() {
-  //   return `This action returns all aulas`;
-  // }
+  findAll() {
+    return this.aulasRepository.findAll();
+  }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} aula`;
-  // }
+  findOne(id: number) {
+    return this.aulasRepository.findOne(id);
+  }
 
-  // update(id: number, updateAulaDto: UpdateAulaDto) {
-  //   return `This action updates a #${id} aula`;
-  // }
+  async getAulasByModuloId(fk_modulo_id: number) {
+    const modulo = await this.modulosRepository.findOne(fk_modulo_id);
+    if (!modulo) {
+      throw new NotFoundException(
+        `Módulo com Id ${fk_modulo_id} não encontrado`,
+      );
+    }
+    const aulas = await this.aulasRepository.getAulasByModuloId(fk_modulo_id);
+    if (!aulas) {
+      throw new 
+    }
+  }
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} aula`;
-  // }
+  async update(Id: number, data: UpdateAulaDto) {
+    const aula = await this.aulasRepository.findOne(Id);
+    const modulo = await this.modulosRepository.findOne(data.fk_modulo_id);
+
+    if (!aula) {
+      throw new NotFoundException(`Aula com Id ${Id} não encontrada`);
+    }
+    if (!modulo) {
+      throw new NotFoundException(
+        `Módulo com Id ${data.fk_modulo_id} não encontrado`,
+      );
+    }
+    return this.aulasRepository.update(Id, data);
+  }
+
+  async remove(Id: number) {
+    const aula = await this.aulasRepository.findOne(Id);
+    if (!aula) {
+      throw new NotFoundException(`Aula com Id ${Id} não encontrada`);
+    }
+    return this.aulasRepository.delete(Id);
+  }
 }
