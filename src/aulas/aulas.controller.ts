@@ -20,6 +20,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { UpdateAulaDto } from './dto/update-aula.dto';
+import { Aula } from './entities/aula.entity';
 
 @ApiTags('aulas')
 @Controller('aulas')
@@ -38,19 +39,72 @@ export class AulasController {
     return this.aulasService.create(createAulaDto);
   }
 
+  @ApiOperation({ summary: 'Listar todas as aulas' })
+  @ApiResponse({
+    status: 200,
+    description: 'Aulas listadas com sucesso',
+    type: [Aula],
+  })
+  //talvez criar resposta de NO_CONTENT
   @Get()
   findAll() {
     return this.aulasService.findAll();
   }
 
+  @ApiOperation({ summary: 'Listar uma aula' })
+  @ApiResponse({
+    status: 200,
+    description: 'Aula listada com sucesso',
+    type: Aula,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Aula com {Id} não encontrada',
+    content: {
+      'application/json': {
+        schema: {
+          example: {
+            message: 'Aula com {Id} não encontrada',
+            error: 'Not Found',
+            statusCode: 404,
+          },
+        },
+      },
+    },
+  })
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.aulasService.findOne(+id);
   }
 
-  @Get(':moduloId/fk_modulo_id')
-  getAulasByModuloId(@Param('moduloId') moduloId: string) {
-    return this.aulasService.getAulasByModuloId(+moduloId);
+  @ApiOperation({ summary: 'Listar todas as aulas de um módulo' })
+  @ApiResponse({
+    status: 200,
+    description: 'Aulas listadas com sucesso',
+    type: [Aula],
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Módulo com {fk_modulo_id} não encontrado',
+    content: {
+      'application/json': {
+        schema: {
+          example: {
+            message: 'Módulo com {fk_modulo_id} não encontrado',
+            error: 'Not Found',
+            statusCode: 404,
+          },
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 204,
+    description: 'Não há aulas para o módulo',
+  })
+  @Get('moduloId/:fk_modulo_id')
+  getAulasByModuloId(@Param('fk_modulo_id') fk_modulo_id: number) {
+    return this.aulasService.getAulasByModuloId(fk_modulo_id);
   }
 
   @Patch(':id')
@@ -58,23 +112,29 @@ export class AulasController {
     return this.aulasService.update(+id, data);
   }
 
+  @ApiOperation({ summary: 'Deletar uma aula' })
+  @ApiResponse({
+    status: 200,
+    description: 'Aula deletada com sucesso',
+    type: Aula,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Aula com {Id} não encontrada',
+    content: {
+      'application/json': {
+        schema: {
+          example: {
+            message: 'Aula com {Id}  não encontrada',
+            error: 'Not Found',
+            statusCode: 404,
+          },
+        },
+      },
+    },
+  })
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     return this.aulasService.remove(+id);
   }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.aulasService.findOne(+id);
-  // }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateAulaDto: UpdateAulaDto) {
-  //   return this.aulasService.update(+id, updateAulaDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.aulasService.remove(+id);
-  // }
 }

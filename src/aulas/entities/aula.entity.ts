@@ -1,1 +1,18 @@
-export class Aula {}
+import { ApiProperty } from '@nestjs/swagger';
+
+export class Aula {
+  @ApiProperty()
+  Id: number;
+  @ApiProperty()
+  Descricao: string;
+  @ApiProperty()
+  fk_modulo_id: number;
+  @ApiProperty()
+  Sequencia: number;
+  @ApiProperty()
+  UrlVideo: string;
+  @ApiProperty()
+  Duracao: number;
+  @ApiProperty({ required: false })
+  XP?: number;
+}

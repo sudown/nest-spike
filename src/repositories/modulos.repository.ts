@@ -18,7 +18,9 @@ export class ModuloRepository {
 
   async findOne(Id: number): Promise<Modulo | null> {
     return this.prisma.modulo.findUnique({
-      where: { Id },
+      where: {
+        Id: Id,
+      },
     });
   }
 

@@ -1,4 +1,10 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 // import { UpdateAulaDto } from './dto/update-aula.dto';
 // import { Prisma } from '@prisma/client';
 import { AulasRepository } from 'src/repositories/aulas.repository';
@@ -39,21 +45,30 @@ export class AulasService {
     return this.aulasRepository.findAll();
   }
 
-  findOne(id: number) {
-    return this.aulasRepository.findOne(id);
+  async findOne(id: number) {
+    const aula = await this.aulasRepository.findOne(id);
+    if (!aula) {
+      throw new NotFoundException(`Aula com Id ${id} não encontrada`);
+    }
+    return aula;
   }
 
   async getAulasByModuloId(fk_modulo_id: number) {
     const modulo = await this.modulosRepository.findOne(fk_modulo_id);
+
     if (!modulo) {
       throw new NotFoundException(
         `Módulo com Id ${fk_modulo_id} não encontrado`,
       );
     }
     const aulas = await this.aulasRepository.getAulasByModuloId(fk_modulo_id);
-    if (!aulas) {
-      throw new 
+    if (!aulas || aulas.length === 0) {
+      throw new HttpException(
+        'Não há aulas para o módulo',
+        HttpStatus.NO_CONTENT,
+      );
     }
+    return aulas;
   }
 
   async update(Id: number, data: UpdateAulaDto) {
