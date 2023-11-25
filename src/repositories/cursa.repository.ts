@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { Cursa, Prisma, AulaProgresso } from '@prisma/client';
+import { Cursa, Prisma, AulaProgresso, ModuloProgresso } from '@prisma/client';
 
 @Injectable()
 export class CursaRepository {
@@ -75,6 +75,29 @@ export class CursaRepository {
         pessoa: {
           connect: {
             Id: IdPessoa,
+          },
+        },
+      },
+    });
+  }
+
+  async insertPessoaInModuloProgresso(
+    dPessoa: number,
+    IdAula: number,
+  ): Promise<ModuloProgresso> {
+    return this.prisma.moduloProgresso.create({
+      data: {
+        concluido: false,
+        DataFim: null,
+        DataInicio: null,
+        modulo: {
+          connect: {
+            Id: IdAula,
+          },
+        },
+        pessoa: {
+          connect: {
+            Id: dPessoa,
           },
         },
       },

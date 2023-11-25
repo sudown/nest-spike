@@ -3,12 +3,14 @@ import { CursaRepository } from 'src/repositories/cursa.repository';
 import { Cursa, Prisma } from '@prisma/client';
 import winston from 'winston';
 import { AulasRepository } from 'src/repositories/aulas.repository';
+import { ModuloRepository } from 'src/repositories/modulos.repository';
 
 @Injectable()
 export class CursaService {
   constructor(
     private cursaRepository: CursaRepository,
     private aulasRepository: AulasRepository,
+    private modulosRepository: ModuloRepository,
     @Inject('Logger') private readonly logger: winston.Logger,
   ) {}
 
@@ -28,6 +30,15 @@ export class CursaService {
         this.cursaRepository.insertPessoaInAulaProgresso(
           data.pessoa.connect.Id,
           aula.Id,
+        );
+      });
+      const modulos = await this.modulosRepository.getModulosByCursoId(
+        data.curso.connect.Id,
+      );
+      modulos.forEach((modulo) => {
+        this.cursaRepository.insertPessoaInModuloProgresso(
+          data.pessoa.connect.Id,
+          modulo.Id,
         );
       });
       return this.cursaRepository.create(data);
