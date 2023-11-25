@@ -4,6 +4,7 @@ import { Cursa, Prisma } from '@prisma/client';
 import winston from 'winston';
 import { AulasRepository } from 'src/repositories/aulas.repository';
 import { ModuloRepository } from 'src/repositories/modulos.repository';
+import { CreateCursaDto } from './dto/create-cursa.dto';
 
 @Injectable()
 export class CursaService {
@@ -14,34 +15,45 @@ export class CursaService {
     @Inject('Logger') private readonly logger: winston.Logger,
   ) {}
 
-  async create(data: Prisma.CursaCreateInput): Promise<Cursa> {
+  async create(data: CreateCursaDto): Promise<Cursa> {
     try {
       const cursa = await this.cursaRepository.findByPessoaIdAndCursoId(
-        data.pessoa.connect.Id,
-        data.curso.connect.Id,
+        data.fk_Pessoa_Id,
+        data.fk_Curso_Id,
       );
       if (cursa.length > 0) {
         throw new Error('Pessoa já está nesse curso');
       }
       const aulas = await this.aulasRepository.getAulasByCursoId(
-        data.curso.connect.Id,
+        data.fk_Curso_Id,
       );
       aulas.forEach((aula) => {
         this.cursaRepository.insertPessoaInAulaProgresso(
-          data.pessoa.connect.Id,
+          data.fk_Pessoa_Id,
           aula.Id,
         );
       });
       const modulos = await this.modulosRepository.getModulosByCursoId(
-        data.curso.connect.Id,
+        data.fk_Curso_Id,
       );
       modulos.forEach((modulo) => {
         this.cursaRepository.insertPessoaInModuloProgresso(
-          data.pessoa.connect.Id,
+          data.fk_Pessoa_Id,
           modulo.Id,
         );
       });
-      return this.cursaRepository.create(data);
+      return this.cursaRepository.create({
+        pessoa: {
+          connect: {
+            Id: data.fk_Pessoa_Id,
+          },
+        },
+        curso: {
+          connect: {
+            Id: data.fk_Curso_Id,
+          },
+        },
+      });
     } catch (error) {
       this.logger.error(error.message);
       throw new Error(error.message);

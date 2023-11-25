@@ -4,7 +4,7 @@ export class Cursa {
   @ApiProperty()
   id: number;
   @ApiProperty()
-  pessoaId: number;
+  fk_Pessoa_id: number;
   @ApiProperty()
-  cursoId: number;
+  fk_Curso_id: number;
 }

@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { CursaService } from './cursa.service';
 import { CreateCursaDto } from './dto/create-cursa.dto';
-import { Prisma } from '@prisma/client';
+// import { Prisma } from '@prisma/client';
 import winston from 'winston';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Cursa } from './entities/cursa.entity';
@@ -29,7 +29,7 @@ export class CursaController {
     status: 201,
     description: 'Pessoa inserida em curso com sucesso',
   })
-  create(@Body() createCursaDto: Prisma.CursaCreateInput) {
+  create(@Body() createCursaDto: CreateCursaDto) {
     return this.cursaService.create(createCursaDto);
   }
 
