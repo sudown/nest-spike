@@ -2,11 +2,13 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CursaRepository } from 'src/repositories/cursa.repository';
 import { Cursa, Prisma } from '@prisma/client';
 import winston from 'winston';
+import { AulasRepository } from 'src/repositories/aulas.repository';
 
 @Injectable()
 export class CursaService {
   constructor(
     private cursaRepository: CursaRepository,
+    private aulasRepository: AulasRepository,
     @Inject('Logger') private readonly logger: winston.Logger,
   ) {}
 
@@ -17,8 +19,17 @@ export class CursaService {
         data.curso.connect.Id,
       );
       if (cursa.length > 0) {
-        throw new Error('Pessoa já está em um curso');
+        throw new Error('Pessoa já está nesse curso');
       }
+      const aulas = await this.aulasRepository.getAulasByCursoId(
+        data.curso.connect.Id,
+      );
+      aulas.forEach((aula) => {
+        this.cursaRepository.insertPessoaInAulaProgresso(
+          data.pessoa.connect.Id,
+          aula.Id,
+        );
+      });
       return this.cursaRepository.create(data);
     } catch (error) {
       this.logger.error(error.message);

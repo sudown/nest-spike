@@ -41,7 +41,7 @@ model Feedback {
   Avaliacao  Int
   Comentario String
   fk_Aula_Id Int
-  Data       DateTime
+  Data       DateTime?
   PessoaId   Int // Adicionando o campo para armazenar o Id da pessoa
   aula       Aula     @relation(fields: [fk_Aula_Id], references: [Id])
   pessoa     Pessoa   @relation(fields: [PessoaId], references: [Id])
@@ -135,8 +135,8 @@ model AulaProgresso {
   idAula     Int
   idPessoa   Int
   concluido  Boolean
-  DataInicio DateTime
-  DataFim    DateTime
+  DataInicio DateTime?
+  DataFim    DateTime?
 
   aula   Aula   @relation(fields: [idAula], references: [Id])
   pessoa Pessoa @relation(fields: [idPessoa], references: [Id])
@@ -148,8 +148,8 @@ model ModuloProgresso {
   idModulo   Int
   idPessoa   Int
   concluido  Boolean
-  DataInicio DateTime
-  DataFim    DateTime
+  DataInicio DateTime?
+  DataFim    DateTime?
 
   modulo Modulo @relation(fields: [idModulo], references: [Id])
   pessoa Pessoa @relation(fields: [idPessoa], references: [Id])
@@ -161,8 +161,8 @@ model CursoProgresso {
   idCurso    Int
   idPessoa   Int
   concluido  Boolean
-  DataInicio DateTime
-  DataFim    DateTime
+  DataInicio DateTime?
+  DataFim    DateTime?
 
   curso  Curso  @relation(fields: [idCurso], references: [Id])
   pessoa Pessoa @relation(fields: [idPessoa], references: [Id])
