@@ -28,6 +28,22 @@ export class CursaController {
   @ApiResponse({
     status: 201,
     description: 'Pessoa inserida em curso com sucesso',
+    type: Cursa,
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'Erro de validação',
+    content: {
+      'application/json': {
+        schema: {
+          example: {
+            message: 'Pessoa com Id {Id} já está cursando o curso com Id {Id}',
+            error: 'Conflict',
+            statusCode: 409,
+          },
+        },
+      },
+    },
   })
   create(@Body() createCursaDto: CreateCursaDto) {
     return this.cursaService.create(createCursaDto);
