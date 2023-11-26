@@ -22,6 +22,14 @@ export class PessoasRepository {
     });
   }
 
+  async findByUsername(Username: string): Promise<Pessoa | null> {
+    return await this.prisma.pessoa.findFirst({
+      where: {
+        Username,
+      },
+    });
+  }
+
   async findByEmail(email: string): Promise<Pessoa | null> {
     return await this.prisma.pessoa.findFirst({
       where: {

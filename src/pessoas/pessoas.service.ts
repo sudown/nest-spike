@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, ConflictException } from '@nestjs/common';
 import { UpdatePessoaDto } from './dto/update-pessoa.dto';
 import { PessoasRepository } from '../repositories/pessoas.repository';
 import { Pessoa, Prisma } from '@prisma/client';
@@ -13,9 +13,24 @@ export class PessoasService {
   ) {}
 
   async create(data: Prisma.PessoaCreateInput): Promise<Pessoa> {
-    const passwordHash = await generateHash(data.Senha);
-    data.Senha = passwordHash;
-    return this.pessoasRepository.create(data);
+    try {
+      const pessoaEmail = await this.pessoasRepository.findByEmail(data.Email);
+      const pessoaUsername = await this.pessoasRepository.findByUsername(
+        data.Username,
+      );
+      if (pessoaEmail) {
+        throw new ConflictException('Email já cadastrado');
+      }
+      if (pessoaUsername) {
+        throw new ConflictException('Username já cadastrado');
+      }
+      const passwordHash = await generateHash(data.Senha);
+      data.Senha = passwordHash;
+      return this.pessoasRepository.create(data);
+    } catch (error) {
+      this.logger.error(error.message);
+      throw error;
+    }
   }
 
   async findAll(): Promise<Pessoa[]> {
