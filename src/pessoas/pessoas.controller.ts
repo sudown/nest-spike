@@ -32,10 +32,30 @@ export class PessoasController {
 
   @ApiOperation({ summary: 'Criar uma pessoa' })
   @ApiProperty({ type: CreatePessoaDto })
+  @ApiResponse({
+    status: 201,
+    description: 'Pessoa criada com sucesso',
+    type: Pessoa,
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'Username/Email ja em uso',
+    content: {
+      'application/json': {
+        schema: {
+          example: {
+            message: 'Username/Email já cadastrado',
+            error: 'Conflict',
+            statusCode: 409,
+          },
+        },
+      },
+    },
+  })
   @Post()
   create(@Body() pessoa: CreatePessoaDto) {
     try {
-      this.logger.info('Criando uma pessoa');
+      this.logger.info('Cadastrar uma pessoa');
       return this.pessoasService.create(pessoa);
     } catch (error) {
       this.logger.error(error);

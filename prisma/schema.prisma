@@ -27,7 +27,7 @@ model Aula {
   XP            Int?
   UrlVideo      String
   Duracao       Int
-  modulo        Modulo          @relation(fields: [fk_modulo_id], references: [Id])
+  modulo        Modulo          @relation(fields: [fk_modulo_id], references: [Id], onDelete: Cascade)
   fk_modulo_id  Int
   feedback      Feedback[]
   materiais     Materiais[]
@@ -41,7 +41,7 @@ model Feedback {
   Avaliacao  Int
   Comentario String
   fk_Aula_Id Int
-  Data       DateTime
+  Data       DateTime?
   PessoaId   Int // Adicionando o campo para armazenar o Id da pessoa
   aula       Aula     @relation(fields: [fk_Aula_Id], references: [Id])
   pessoa     Pessoa   @relation(fields: [PessoaId], references: [Id])
@@ -63,7 +63,7 @@ model Modulo {
   Titulo          String
   Descricao       String
   Sequencia       Int
-  curso           Curso             @relation(fields: [fkCursoId], references: [Id])
+  curso           Curso             @relation(fields: [fkCursoId], references: [Id], onDelete: Cascade)
   fkCursoId       Int
   Aula            Aula[]
   ModuloProgresso ModuloProgresso[]
@@ -114,7 +114,7 @@ model Cursa {
   fk_Pessoa_Id Int
   fk_Curso_Id  Int
   pessoa       Pessoa @relation(fields: [fk_Pessoa_Id], references: [Id])
-  curso        Curso  @relation(fields: [fk_Curso_Id], references: [Id])
+  curso        Curso  @relation(fields: [fk_Curso_Id], references: [Id], onDelete: Cascade)
 }
 
 // Definição do modelo Curso
@@ -135,10 +135,10 @@ model AulaProgresso {
   idAula     Int
   idPessoa   Int
   concluido  Boolean
-  DataInicio DateTime
-  DataFim    DateTime
+  DataInicio DateTime?
+  DataFim    DateTime?
 
-  aula   Aula   @relation(fields: [idAula], references: [Id])
+  aula   Aula   @relation(fields: [idAula], references: [Id], onDelete: Cascade, onUpdate: Cascade)
   pessoa Pessoa @relation(fields: [idPessoa], references: [Id])
 
   @@id([idAula, idPessoa])
@@ -148,10 +148,10 @@ model ModuloProgresso {
   idModulo   Int
   idPessoa   Int
   concluido  Boolean
-  DataInicio DateTime
-  DataFim    DateTime
+  DataInicio DateTime?
+  DataFim    DateTime?
 
-  modulo Modulo @relation(fields: [idModulo], references: [Id])
+  modulo Modulo @relation(fields: [idModulo], references: [Id], onDelete: Cascade, onUpdate: Cascade)
   pessoa Pessoa @relation(fields: [idPessoa], references: [Id])
 
   @@id([idModulo, idPessoa])
@@ -161,10 +161,10 @@ model CursoProgresso {
   idCurso    Int
   idPessoa   Int
   concluido  Boolean
-  DataInicio DateTime
-  DataFim    DateTime
+  DataInicio DateTime?
+  DataFim    DateTime?
 
-  curso  Curso  @relation(fields: [idCurso], references: [Id])
+  curso  Curso  @relation(fields: [idCurso], references: [Id], onDelete: Cascade, onUpdate: Cascade)
   pessoa Pessoa @relation(fields: [idPessoa], references: [Id])
 
   @@id([idCurso, idPessoa])

@@ -104,10 +104,22 @@ export class CursosController {
   @ApiResponse({
     status: 200,
     description: 'Curso removido com sucesso',
+    type: Curso,
   })
   @ApiResponse({
     status: 404,
     description: 'Curso não encontrado',
+    content: {
+      'application/json': {
+        schema: {
+          example: {
+            message: 'Curso id {id} não encontrado',
+            error: 'Not Found',
+            statusCode: 404,
+          },
+        },
+      },
+    },
   })
   remove(@Param('id') id: string) {
     return this.cursosService.remove(+id);

@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { CursaService } from './cursa.service';
 import { CreateCursaDto } from './dto/create-cursa.dto';
-import { Prisma } from '@prisma/client';
+// import { Prisma } from '@prisma/client';
 import winston from 'winston';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Cursa } from './entities/cursa.entity';
@@ -28,8 +28,24 @@ export class CursaController {
   @ApiResponse({
     status: 201,
     description: 'Pessoa inserida em curso com sucesso',
+    type: Cursa,
   })
-  create(@Body() createCursaDto: Prisma.CursaCreateInput) {
+  @ApiResponse({
+    status: 409,
+    description: 'Erro de validação',
+    content: {
+      'application/json': {
+        schema: {
+          example: {
+            message: 'Pessoa com Id {Id} já está cursando o curso com Id {Id}',
+            error: 'Conflict',
+            statusCode: 409,
+          },
+        },
+      },
+    },
+  })
+  create(@Body() createCursaDto: CreateCursaDto) {
     return this.cursaService.create(createCursaDto);
   }
 

@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { UpdateCursoDto } from './dto/update-curso.dto';
 import * as winston from 'winston';
 import { CursosRepository } from 'src/repositories/cursos.repository';
@@ -33,8 +33,10 @@ export class CursosService {
   }
 
   async remove(Id: number): Promise<Curso> {
-    const curso = await this.cursosRepository.delete(Id);
-
-    return curso;
+    const curso = await this.cursosRepository.findOne(Id);
+    if (!curso) {
+      throw new NotFoundException(`Curso id ${Id} não encontrado`);
+    }
+    return await this.cursosRepository.delete(Id);
   }
 }
