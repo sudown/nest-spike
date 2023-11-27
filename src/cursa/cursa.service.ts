@@ -1,10 +1,17 @@
-import { ConflictException, Inject, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
 import { CursaRepository } from 'src/repositories/cursa.repository';
-import { Cursa, Prisma } from '@prisma/client';
+import { CursoProgresso } from '@prisma/client';
 import winston from 'winston';
 import { AulasRepository } from 'src/repositories/aulas.repository';
 import { ModuloRepository } from 'src/repositories/modulos.repository';
 import { CreateCursaDto } from './dto/create-cursa.dto';
+import { UpdateCursaDto } from './dto/update-cursa.dto';
 
 @Injectable()
 export class CursaService {
@@ -15,75 +22,91 @@ export class CursaService {
     @Inject('Logger') private readonly logger: winston.Logger,
   ) {}
 
-  async create(data: CreateCursaDto) {
-    const cursa = await this.cursaRepository.findByPessoaIdAndCursoId(
-      data.fk_Pessoa_Id,
-      data.fk_Curso_Id,
+  async create(data: CreateCursaDto): Promise<CursoProgresso> {
+    const cursa = await this.cursaRepository.findOne(
+      data.idCurso,
+      data.idPessoa,
     );
 
-    if (cursa.length > 0) {
+    if (cursa) {
       throw new ConflictException(
-        `Pessoa com Id ${data.fk_Pessoa_Id} já está cursando o curso com Id ${data.fk_Curso_Id}`,
+        `Pessoa com Id ${data.idPessoa} já está cursando o curso com Id ${data.idCurso}`,
       );
     }
 
-    const aulas = await this.aulasRepository.getAulasByCursoId(
-      data.fk_Curso_Id,
-    );
+    const aulas = await this.aulasRepository.getAulasByCursoId(data.idCurso);
     aulas.forEach((aula) => {
-      this.cursaRepository.insertPessoaInAulaProgresso(
-        data.fk_Pessoa_Id,
-        aula.Id,
-      );
+      this.cursaRepository.insertPessoaInAulaProgresso(data.idPessoa, aula.Id);
     });
 
     const modulos = await this.modulosRepository.getModulosByCursoId(
-      data.fk_Curso_Id,
+      data.idCurso,
     );
     modulos.forEach((modulo) => {
       this.cursaRepository.insertPessoaInModuloProgresso(
-        data.fk_Pessoa_Id,
+        data.idPessoa,
         modulo.Id,
       );
     });
     return this.cursaRepository.create({
-      pessoa: {
-        connect: {
-          Id: data.fk_Pessoa_Id,
-        },
-      },
-      curso: {
-        connect: {
-          Id: data.fk_Curso_Id,
-        },
-      },
+      curso: { connect: { Id: data.idCurso } },
+      pessoa: { connect: { Id: data.idPessoa } },
+      concluido: data.concluido,
+      DataInicio: data.dataInicio,
+      DataFim: data.dataFim,
     });
   }
 
-  async update(Id: number, data: Prisma.CursaUpdateInput): Promise<Cursa> {
-    return this.cursaRepository.update(Id, data);
+  async update(
+    IdCurso: number,
+    IdPessoa: number,
+    data: UpdateCursaDto,
+  ): Promise<CursoProgresso> {
+    return this.cursaRepository.update(IdCurso, IdPessoa, data);
   }
 
-  async findAll(): Promise<Cursa[]> {
-    return this.cursaRepository.findAll();
+  async findAll(): Promise<CursoProgresso[]> {
+    const cursos = await this.cursaRepository.findAll();
+    if (cursos.length === 0) {
+      throw new HttpException(
+        'Não há cursos cadastrados',
+        HttpStatus.NO_CONTENT,
+      );
+    }
+    return cursos;
   }
 
-  async findOne(Id: number): Promise<Cursa> {
-    return this.cursaRepository.findOne(Id);
+  async findOne(IdCurso: number, IdPessoa: number): Promise<CursoProgresso> {
+    const curso = await this.cursaRepository.findOne(IdCurso, IdPessoa);
+    if (!curso) {
+      throw new HttpException(
+        `Não há curso com Id ${IdCurso} para a pessoa com Id ${IdPessoa}`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    return curso;
   }
 
-  async findByPessoaId(PessoaId: number): Promise<Cursa[]> {
-    return this.cursaRepository.findByPessoaId(PessoaId);
+  async findCursosByPessoaId(PessoaId: number): Promise<CursoProgresso[]> {
+    return this.cursaRepository.findCursosByPessoaId(PessoaId);
   }
 
-  async remove(Id: number): Promise<Cursa> {
-    return this.cursaRepository.delete(Id);
+  async findPessoasByCursoId(CursoId: number): Promise<CursoProgresso[]> {
+    return this.cursaRepository.findPessoasByCursoId(CursoId);
   }
 
-  async removeByPessoaIdAndCursoId(
-    PessoaId: number,
-    CursoId: number,
-  ): Promise<Cursa> {
-    return this.cursaRepository.deleteByPessoaIdAndCursoId(PessoaId, CursoId);
+  async remove(IdCurso: number, IdPessoa: number): Promise<CursoProgresso> {
+    const cursoProgresso = await this.cursaRepository.findOne(
+      IdCurso,
+      IdPessoa,
+    );
+
+    if (!cursoProgresso) {
+      throw new ConflictException(
+        `Pessoa com Id ${IdPessoa} não está cursando o curso com Id ${IdCurso}`,
+      );
+    }
+
+    return this.cursaRepository.delete(IdPessoa, IdCurso);
   }
 }

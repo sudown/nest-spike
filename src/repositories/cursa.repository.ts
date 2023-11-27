@@ -1,60 +1,70 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { Cursa, Prisma, AulaProgresso, ModuloProgresso } from '@prisma/client';
+import {
+  CursoProgresso,
+  Prisma,
+  AulaProgresso,
+  ModuloProgresso,
+} from '@prisma/client';
 
 @Injectable()
 export class CursaRepository {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: Prisma.CursaCreateInput): Promise<Cursa> {
-    return this.prisma.cursa.create({ data });
+  async create(
+    data: Prisma.CursoProgressoCreateInput,
+  ): Promise<CursoProgresso> {
+    return this.prisma.cursoProgresso.create({ data });
   }
 
-  async update(Id: number, data: Prisma.CursaUpdateInput): Promise<Cursa> {
-    return this.prisma.cursa.update({
-      where: { Id },
+  async update(
+    IdCurso: number,
+    IdPessoa: number,
+    data: Prisma.CursoProgressoUpdateInput,
+  ): Promise<CursoProgresso> {
+    return this.prisma.cursoProgresso.update({
+      where: {
+        idCurso_idPessoa: {
+          idCurso: IdCurso,
+          idPessoa: IdPessoa,
+        },
+      },
       data,
     });
   }
 
-  async findAll(): Promise<Cursa[]> {
-    return this.prisma.cursa.findMany();
+  async findAll(): Promise<CursoProgresso[]> {
+    return this.prisma.cursoProgresso.findMany();
   }
 
-  async findOne(Id: number): Promise<Cursa> {
-    return this.prisma.cursa.findFirst({
-      where: { Id },
+  async findOne(idCurso: number, idPessoa: number): Promise<CursoProgresso> {
+    return this.prisma.cursoProgresso.findFirst({
+      where: { idCurso, idPessoa },
     });
   }
 
-  async findByPessoaId(PessoaId: number): Promise<Cursa[]> {
-    return this.prisma.cursa.findMany({
-      where: { fk_Pessoa_Id: PessoaId },
+  async findCursosByPessoaId(PessoaId: number): Promise<CursoProgresso[]> {
+    return this.prisma.cursoProgresso.findMany({
+      where: { idPessoa: PessoaId },
     });
   }
 
-  async findByPessoaIdAndCursoId(
-    PessoaId: number,
-    CursoId: number,
-  ): Promise<Cursa[]> {
-    return this.prisma.cursa.findMany({
-      where: { fk_Pessoa_Id: PessoaId, fk_Curso_Id: CursoId },
+  async findPessoasByCursoId(CursoId: number): Promise<CursoProgresso[]> {
+    return this.prisma.cursoProgresso.findMany({
+      where: { idCurso: CursoId },
     });
   }
 
-  async delete(Id: number): Promise<Cursa> {
-    return this.prisma.cursa.delete({
-      where: { Id },
+  async delete(PessoaId: number, CursoId: number): Promise<CursoProgresso> {
+    return this.prisma.cursoProgresso.delete({
+      where: { idCurso_idPessoa: { idCurso: CursoId, idPessoa: PessoaId } },
     });
   }
 
-  async deleteByPessoaIdAndCursoId(
-    PessoaId: number,
-    CursoId: number,
-  ): Promise<Cursa> {
-    const curso = await this.findByPessoaIdAndCursoId(PessoaId, CursoId);
-    return this.prisma.cursa.delete({
-      where: { Id: curso[0].Id },
+  async markCursoAsConcluido(PessoaId: number, CursoId: number) {
+    return this.prisma.cursoProgresso.update({
+      where: { idCurso_idPessoa: { idCurso: CursoId, idPessoa: PessoaId } },
+      data: { concluido: true, DataFim: null },
     });
   }
 

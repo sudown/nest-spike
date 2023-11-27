@@ -2,7 +2,13 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateCursaDto {
   @ApiProperty()
-  fk_Pessoa_Id: number;
+  idCurso: number;
   @ApiProperty()
-  fk_Curso_Id: number;
+  idPessoa: number;
+  @ApiProperty()
+  concluido: boolean;
+  @ApiProperty()
+  dataInicio: Date;
+  @ApiProperty()
+  dataFim: Date;
 }

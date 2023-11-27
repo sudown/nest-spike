@@ -4,7 +4,13 @@ export class Cursa {
   @ApiProperty()
   id: number;
   @ApiProperty()
-  fk_Pessoa_id: number;
+  idCurso: number;
   @ApiProperty()
-  fk_Curso_id: number;
+  idPessoa: number;
+  @ApiProperty()
+  concluido: boolean;
+  @ApiProperty()
+  dataInicio: Date;
+  @ApiProperty()
+  dataFim: Date;
 }

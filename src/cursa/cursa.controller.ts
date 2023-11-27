@@ -55,6 +55,10 @@ export class CursaController {
     description: 'Lista de pessoas em cursos',
     type: [Cursa],
   })
+  @ApiResponse({
+    status: 204,
+    description: 'Nenhuma pessoa em curso encontrada',
+  })
   @Get()
   findAll() {
     return this.cursaService.findAll();
@@ -65,15 +69,11 @@ export class CursaController {
     status: 200,
     description: 'Pessoa removida de curso com sucesso',
   })
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.cursaService.remove(+id);
-  }
-  @Delete(':pessoaId/:cursoId')
+  @Delete(':cursoId/:pessoaId')
   removeByPessoaIdAndCursoId(
-    @Param('pessoaId') pessoaId: string,
     @Param('cursoId') cursoId: string,
+    @Param('pessoaId') pessoaId: string,
   ) {
-    return this.cursaService.removeByPessoaIdAndCursoId(+pessoaId, +cursoId);
+    return this.cursaService.remove(+cursoId, +pessoaId);
   }
 }
