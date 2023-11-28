@@ -102,10 +102,21 @@ export class CursaService {
     );
 
     if (!cursoProgresso) {
-      throw new ConflictException(
-        `Pessoa com Id ${IdPessoa} não está cursando o curso com Id ${IdCurso}`,
+      throw new HttpException(
+        `Não há curso com Id ${IdCurso} para a pessoa com Id ${IdPessoa}`,
+        HttpStatus.NOT_FOUND,
       );
     }
+
+    const aulas = await this.cursaRepository.findAulasByPessoaId(IdPessoa);
+    const modulos = await this.cursaRepository.findModulosByPessoaId(IdPessoa);
+
+    aulas.forEach((aula) => {
+      this.cursaRepository.deleteAulaProgresso(IdPessoa, aula.idAula);
+    });
+    modulos.forEach((modulo) => {
+      this.cursaRepository.deleteModuloProgresso(IdPessoa, modulo.idModulo);
+    });
 
     return this.cursaRepository.delete(IdPessoa, IdCurso);
   }

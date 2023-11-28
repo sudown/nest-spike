@@ -61,6 +61,36 @@ export class CursaRepository {
     });
   }
 
+  async deleteAulaProgresso(
+    PessoaId: number,
+    CursoId: number,
+  ): Promise<AulaProgresso> {
+    return this.prisma.aulaProgresso.delete({
+      where: { idAula_idPessoa: { idAula: CursoId, idPessoa: PessoaId } },
+    });
+  }
+
+  async deleteModuloProgresso(
+    PessoaId: number,
+    CursoId: number,
+  ): Promise<ModuloProgresso> {
+    return this.prisma.moduloProgresso.delete({
+      where: { idModulo_idPessoa: { idModulo: CursoId, idPessoa: PessoaId } },
+    });
+  }
+
+  async findAulasByPessoaId(PessoaId: number): Promise<AulaProgresso[]> {
+    return this.prisma.aulaProgresso.findMany({
+      where: { idPessoa: PessoaId },
+    });
+  }
+
+  async findModulosByPessoaId(PessoaId: number): Promise<ModuloProgresso[]> {
+    return this.prisma.moduloProgresso.findMany({
+      where: { idPessoa: PessoaId },
+    });
+  }
+
   async markCursoAsConcluido(PessoaId: number, CursoId: number) {
     return this.prisma.cursoProgresso.update({
       where: { idCurso_idPessoa: { idCurso: CursoId, idPessoa: PessoaId } },
