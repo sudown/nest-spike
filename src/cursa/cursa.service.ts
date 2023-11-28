@@ -5,7 +5,7 @@ import {
   Inject,
   Injectable,
 } from '@nestjs/common';
-import { CursaRepository } from 'src/repositories/cursa.repository';
+import { CursaRepository } from 'src/repositories/cursoProgresso.repository';
 import { CursoProgresso } from '@prisma/client';
 import winston from 'winston';
 import { AulasRepository } from 'src/repositories/aulas.repository';
@@ -36,14 +36,14 @@ export class CursaService {
 
     const aulas = await this.aulasRepository.getAulasByCursoId(data.idCurso);
     aulas.forEach((aula) => {
-      this.cursaRepository.insertPessoaInAulaProgresso(data.idPessoa, aula.Id);
+      this.aulasRepository.insertPessoaInAulaProgresso(data.idPessoa, aula.Id);
     });
 
     const modulos = await this.modulosRepository.getModulosByCursoId(
       data.idCurso,
     );
     modulos.forEach((modulo) => {
-      this.cursaRepository.insertPessoaInModuloProgresso(
+      this.modulosRepository.insertPessoaInModuloProgresso(
         data.idPessoa,
         modulo.Id,
       );
@@ -108,14 +108,15 @@ export class CursaService {
       );
     }
 
-    const aulas = await this.cursaRepository.findAulasByPessoaId(IdPessoa);
-    const modulos = await this.cursaRepository.findModulosByPessoaId(IdPessoa);
+    const aulas = await this.aulasRepository.findAulasByPessoaId(IdPessoa);
+    const modulos =
+      await this.modulosRepository.findModulosByPessoaId(IdPessoa);
 
     aulas.forEach((aula) => {
-      this.cursaRepository.deleteAulaProgresso(IdPessoa, aula.idAula);
+      this.aulasRepository.deleteAulaProgresso(IdPessoa, aula.idAula);
     });
     modulos.forEach((modulo) => {
-      this.cursaRepository.deleteModuloProgresso(IdPessoa, modulo.idModulo);
+      this.modulosRepository.deleteModuloProgresso(IdPessoa, modulo.idModulo);
     });
 
     return this.cursaRepository.delete(IdPessoa, IdCurso);

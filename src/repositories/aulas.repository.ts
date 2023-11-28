@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { AulaProgresso, Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma.service';
 import { Aula } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
@@ -56,6 +56,45 @@ export class AulasRepository {
   async delete(Id: number): Promise<Aula> {
     return this.prisma.aula.delete({
       where: { Id },
+    });
+  }
+
+  async deleteAulaProgresso(
+    PessoaId: number,
+    CursoId: number,
+  ): Promise<AulaProgresso> {
+    return this.prisma.aulaProgresso.delete({
+      where: { idAula_idPessoa: { idAula: CursoId, idPessoa: PessoaId } },
+    });
+  }
+
+  async findAulasByPessoaId(PessoaId: number): Promise<AulaProgresso[]> {
+    return this.prisma.aulaProgresso.findMany({
+      where: { idPessoa: PessoaId },
+    });
+  }
+
+  async insertPessoaInAulaProgresso(
+    IdPessoa: number,
+    IdAula: number,
+  ): Promise<AulaProgresso> {
+    const data = new Date();
+    return this.prisma.aulaProgresso.create({
+      data: {
+        concluido: false,
+        DataFim: data.toISOString(),
+        DataInicio: data.toISOString(),
+        aula: {
+          connect: {
+            Id: IdAula,
+          },
+        },
+        pessoa: {
+          connect: {
+            Id: IdPessoa,
+          },
+        },
+      },
     });
   }
 }
