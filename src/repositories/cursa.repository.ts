@@ -70,13 +70,14 @@ export class CursaRepository {
 
   async insertPessoaInAulaProgresso(
     IdPessoa: number,
-    IdAula: number, // data: Prisma.AulaProgressoCreateInput,
+    IdAula: number,
   ): Promise<AulaProgresso> {
+    const data = new Date();
     return this.prisma.aulaProgresso.create({
       data: {
         concluido: false,
-        DataFim: null,
-        DataInicio: null,
+        DataFim: data.toISOString(),
+        DataInicio: data.toISOString(),
         aula: {
           connect: {
             Id: IdAula,
@@ -95,11 +96,12 @@ export class CursaRepository {
     dPessoa: number,
     IdAula: number,
   ): Promise<ModuloProgresso> {
+    const data = new Date();
     return this.prisma.moduloProgresso.create({
       data: {
         concluido: false,
-        DataFim: null,
-        DataInicio: null,
+        DataFim: data.toISOString(),
+        DataInicio: data.toISOString(),
         modulo: {
           connect: {
             Id: IdAula,
