@@ -54,7 +54,7 @@ model Materiais {
   Tipo       String
   URL        String
   fk_Aula_Id Int
-  aula       Aula   @relation(fields: [fk_Aula_Id], references: [Id])
+  aula       Aula   @relation(fields: [fk_Aula_Id], references: [Id], onDelete: Cascade)
 }
 
 // Definição do modelo Modulo

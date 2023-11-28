@@ -138,4 +138,13 @@ export class CursosController {
   async return(@Param('id') id: string) {
     return id;
   }
+
+  @ApiOperation({ summary: 'Em criação' })
+  @Get('progresso/cursoId/:cursoId/pessoaId/:pessoaId')
+  pessoaProgresso(
+    @Param('pessoaId') pessoaId: string,
+    @Param('cursoId') cursoId: string,
+  ) {
+    return `${pessoaId}, ${cursoId}`;
+  }
 }

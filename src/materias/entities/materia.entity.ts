@@ -1,16 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class Curso {
+export class Materia {
   @ApiProperty()
   Id: number;
   @ApiProperty()
-  Titulo: string;
+  Nome: string;
   @ApiProperty()
-  Descricao: string;
+  Tipo: string;
   @ApiProperty()
-  CriadorId: number;
+  URL: string;
   @ApiProperty()
-  Duracao: number;
-  @ApiProperty()
-  XP: number;
+  fk_Aula_Id: number;
 }
