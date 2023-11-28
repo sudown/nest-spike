@@ -1,13 +1,24 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+/* eslint-disable prettier/prettier */
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { UpdateCursoDto } from './dto/update-curso.dto';
 import * as winston from 'winston';
 import { CursosRepository } from 'src/repositories/cursos.repository';
 import { Curso, Prisma } from '@prisma/client';
+import { CursaRepository } from 'src/repositories/cursoProgresso.repository';
+import { AulasRepository } from 'src/repositories/aulas.repository';
 
 @Injectable()
 export class CursosService {
   constructor(
     private cursosRepository: CursosRepository,
+    private cursaRepository: CursaRepository,
+    private aulasRepository: AulasRepository,
     @Inject('Logger') private readonly logger: winston.Logger,
   ) {}
 
@@ -38,5 +49,17 @@ export class CursosService {
       throw new NotFoundException(`Curso id ${Id} não encontrado`);
     }
     return await this.cursosRepository.delete(Id);
+  }
+
+  async findCursosByPessoaId(idPessoa: number): Promise<any> {
+    const progressoAula =
+      await this.cursosRepository.getProgressoCursoByPessoaId(idPessoa);
+    if (progressoAula.length === 0) {
+      throw new HttpException(
+        'Pessoa não está cursando nenhum curso',
+        HttpStatus.NO_CONTENT,
+      );
+    }
+    return progressoAula;
   }
 }

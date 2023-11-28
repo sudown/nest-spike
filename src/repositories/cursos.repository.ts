@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { Curso, Prisma } from '@prisma/client';
+import { CursoProgressoDto } from 'src/cursos/dto/cursoProgresso.dto';
 
 @Injectable()
 export class CursosRepository {
@@ -31,5 +32,32 @@ export class CursosRepository {
     return await this.prisma.curso.delete({
       where: { Id },
     });
+  }
+
+  async getProgressoCursoByPessoaId(idPessoa: number) {
+    const progressoAulas: CursoProgressoDto[] = await this.prisma.$queryRaw`
+      SELECT
+        CP.idCurso,
+        CP.idPessoa,
+        COUNT(AP.concluido = true OR NULL) AS AulasConcluidas,
+        COUNT(*) AS TotalAulas
+      FROM CursoProgresso CP
+      JOIN Modulo M ON CP.idCurso = M.fkCursoId
+      JOIN Aula A ON M.Id = A.fk_modulo_id
+      LEFT JOIN AulaProgresso AP ON A.Id = AP.idAula AND CP.idPessoa = AP.idPessoa
+      WHERE CP.idPessoa = ${idPessoa}
+      GROUP BY CP.idCurso, CP.idPessoa;
+    `;
+
+    // Converter BigInt para número antes de imprimir
+    const progressoAulasFormatado = progressoAulas.map(
+      (item: CursoProgressoDto) => ({
+        ...item,
+        AulasConcluidas: Number(item.AulasConcluidas),
+        TotalAulas: Number(item.TotalAulas),
+      }),
+    );
+
+    return progressoAulasFormatado;
   }
 }

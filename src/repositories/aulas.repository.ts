@@ -40,6 +40,14 @@ export class AulasRepository {
     return aulas;
   }
 
+  async getProgressoAulasByPessoaId(
+    idPessoa: number,
+  ): Promise<AulaProgresso[]> {
+    return this.prisma.aulaProgresso.findMany({
+      where: { idPessoa },
+    });
+  }
+
   async getAulasByModuloId(fk_modulo_id: number): Promise<Aula[]> {
     return this.prisma.aula.findMany({
       where: { fk_modulo_id },

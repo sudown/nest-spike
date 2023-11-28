@@ -20,6 +20,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { CursoProgressoDto } from './dto/cursoProgresso.dto';
 
 @ApiTags('cursos')
 @Controller('cursos')
@@ -139,12 +140,18 @@ export class CursosController {
     return id;
   }
 
-  @ApiOperation({ summary: 'Em criação' })
-  @Get('progresso/cursoId/:cursoId/pessoaId/:pessoaId')
-  pessoaProgresso(
-    @Param('pessoaId') pessoaId: string,
-    @Param('cursoId') cursoId: string,
-  ) {
-    return `${pessoaId}, ${cursoId}`;
+  @ApiOperation({ summary: 'Retornar o progresso de uma pessoas nos cursos' })
+  @ApiResponse({
+    status: 200,
+    description: 'Progresso retornado com sucesso',
+    type: [CursoProgressoDto],
+  })
+  @ApiResponse({
+    status: 204,
+    description: 'Pessoa não está cursando nenhum curso',
+  })
+  @Get('progresso/pessoaId/:pessoaId')
+  pessoaProgresso(@Param('pessoaId') pessoaId: string) {
+    return this.cursosService.findCursosByPessoaId(+pessoaId);
   }
 }

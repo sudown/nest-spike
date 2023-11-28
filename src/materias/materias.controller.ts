@@ -12,7 +12,7 @@ import { CreateMateriaDto } from './dto/create-materia.dto';
 import { UpdateMateriaDto } from './dto/update-materia.dto';
 import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags('materias')
+@ApiTags('materias | *faltando documentar as respostas')
 @Controller('materias')
 export class MateriasController {
   constructor(private readonly materiasService: MateriasService) {}
