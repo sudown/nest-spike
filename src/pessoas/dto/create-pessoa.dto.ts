@@ -15,6 +15,8 @@ export class CreatePessoaDto {
   @ApiProperty()
   @IsString()
   Username: string;
+  @ApiProperty({ required: false })
+  UrlAvatar?: string;
   @ApiProperty()
   @IsString()
   Tipo: string;

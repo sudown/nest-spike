@@ -14,5 +14,7 @@ export class CreateCursoDto {
   @ApiProperty()
   @IsNumber()
   CriadorId: number;
+  @ApiProperty({ required: false })
+  UrlThumbnail: string;
   pessoa: any; //achar o tipo depois
 }

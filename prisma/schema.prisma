@@ -79,6 +79,7 @@ model Pessoa {
   Username        String            @default("")
   XP              Int               @default(10)
   Canal           String?           @default("")
+  UrlAvatar       String?           @default("")
   possui          Possui[]
   cursa           Cursa[]
   patente         Patente?          @relation(fields: [patenteId], references: [Id])
@@ -125,6 +126,7 @@ model Curso {
   XP             Int?             @default(0)
   Duracao        Int?             @default(0)
   CriadorId      Int
+  UrlThumbnail   String?          @default("")
   Modulo         Modulo[]
   Cursa          Cursa[]
   CursoProgresso CursoProgresso[]

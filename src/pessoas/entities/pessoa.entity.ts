@@ -11,6 +11,8 @@ export class Pessoa {
   @ApiProperty({ required: false })
   Canal: string;
   @ApiProperty()
+  UrlAvatar: string;
+  @ApiProperty()
   Tipo: string;
   @ApiProperty()
   XP?: number;
