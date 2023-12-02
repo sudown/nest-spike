@@ -2,8 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { Pessoa, Prisma } from '@prisma/client';
 
+interface IPessoasRepository {
+  create(data: Prisma.PessoaCreateInput): Promise<Pessoa>;
+  findAll(): Promise<Pessoa[]>;
+  findOne(Id: number): Promise<Pessoa | null>;
+  findByUsername(Username: string): Promise<Pessoa | null>;
+  findByEmail(email: string): Promise<Pessoa | null>;
+  update(Id: number, data: Prisma.PessoaUpdateInput): Promise<Pessoa>;
+  delete(Id: number): Promise<Pessoa>;
+}
+
 @Injectable()
-export class PessoasRepository {
+export class PessoasRepository implements IPessoasRepository {
   constructor(private prisma: PrismaService) {}
 
   async create(data: Prisma.PessoaCreateInput): Promise<Pessoa> {

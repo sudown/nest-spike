@@ -2,8 +2,26 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { CursoProgresso, Prisma } from '@prisma/client';
 
+interface ICursaRepository {
+  create(data: Prisma.CursoProgressoCreateInput): Promise<CursoProgresso>;
+  update(
+    IdCurso: number,
+    IdPessoa: number,
+    data: Prisma.CursoProgressoUpdateInput,
+  ): Promise<CursoProgresso>;
+  findAll(): Promise<CursoProgresso[]>;
+  findOne(idCurso: number, idPessoa: number): Promise<CursoProgresso>;
+  findCursosByPessoaId(PessoaId: number): Promise<CursoProgresso[]>;
+  findPessoasByCursoId(CursoId: number): Promise<CursoProgresso[]>;
+  delete(PessoaId: number, CursoId: number): Promise<CursoProgresso>;
+  markCursoAsConcluido(
+    PessoaId: number,
+    CursoId: number,
+  ): Promise<CursoProgresso>;
+}
+
 @Injectable()
-export class CursaRepository {
+export class CursaRepository implements ICursaRepository {
   constructor(private prisma: PrismaService) {}
 
   async create(

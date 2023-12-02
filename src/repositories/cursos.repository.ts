@@ -3,8 +3,17 @@ import { PrismaService } from '../prisma.service';
 import { Curso, Prisma } from '@prisma/client';
 import { CursoProgressoDto } from 'src/cursos/dto/cursoProgresso.dto';
 
+interface ICursosRepository {
+  create(data: Prisma.CursoCreateInput): Promise<Curso>;
+  update(Id: number, data: Prisma.CursoUpdateInput): Promise<Curso>;
+  findAll(): Promise<Curso[]>;
+  findOne(Id: number): Promise<Curso | null>;
+  delete(Id: number): Promise<Curso>;
+  getProgressoCursoByPessoaId(idPessoa: number): Promise<CursoProgressoDto[]>;
+}
+
 @Injectable()
-export class CursosRepository {
+export class CursosRepository implements ICursosRepository {
   constructor(private prisma: PrismaService) {}
 
   async create(data: Prisma.CursoCreateInput): Promise<Curso> {

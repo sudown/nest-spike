@@ -2,9 +2,27 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { Modulo, ModuloProgresso, Prisma } from '@prisma/client';
 
+interface IModuloRepository {
+  create(data: Prisma.ModuloCreateInput): Promise<Modulo>;
+  findAll(): Promise<Modulo[]>;
+  findOne(Id: number): Promise<Modulo | null>;
+  getModulosByCursoId(fkCursoId: number): Promise<Modulo[]>;
+  update(Id: number, data: Prisma.ModuloUpdateInput): Promise<Modulo>;
+  delete(Id: number): Promise<Modulo>;
+  insertPessoaInModuloProgresso(
+    dPessoa: number,
+    IdAula: number,
+  ): Promise<ModuloProgresso>;
+  findModulosByPessoaId(PessoaId: number): Promise<ModuloProgresso[]>;
+  deleteModuloProgresso(
+    PessoaId: number,
+    CursoId: number,
+  ): Promise<ModuloProgresso>;
+}
+
 @Injectable()
-export class ModuloRepository {
-  constructor(private prisma: PrismaService) {}
+export class ModuloRepository implements IModuloRepository {
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(data: Prisma.ModuloCreateInput): Promise<Modulo> {
     return this.prisma.modulo.create({

@@ -5,8 +5,28 @@ import { Injectable } from '@nestjs/common';
 import { ModuloRepository } from './modulos.repository';
 import { CursosRepository } from './cursos.repository';
 
+interface IAulasRepository {
+  create(data: Prisma.AulaCreateInput): Promise<Aula>;
+  findAll(): Promise<Aula[]>;
+  findOne(Id: number): Promise<Aula | null>;
+  getAulasByCursoId(fk_curso_id: number): Promise<Aula[]>;
+  getProgressoAulasByPessoaId(idPessoa: number): Promise<AulaProgresso[]>;
+  getAulasByModuloId(fk_modulo_id: number): Promise<Aula[]>;
+  update(Id: number, data: Prisma.AulaUpdateInput): Promise<Aula>;
+  delete(Id: number): Promise<Aula>;
+  deleteAulaProgresso(
+    PessoaId: number,
+    CursoId: number,
+  ): Promise<AulaProgresso>;
+  findAulasByPessoaId(PessoaId: number): Promise<AulaProgresso[]>;
+  insertPessoaInAulaProgresso(
+    IdPessoa: number,
+    IdAula: number,
+  ): Promise<AulaProgresso>;
+}
+
 @Injectable()
-export class AulasRepository {
+export class AulasRepository implements IAulasRepository {
   constructor(
     private prisma: PrismaService,
     private cursosRepository: CursosRepository,

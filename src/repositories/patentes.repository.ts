@@ -2,8 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { Patente, Prisma } from '@prisma/client';
 
+interface IPatentesRepository {
+  create(data: Prisma.PatenteCreateInput): Promise<Patente>;
+  findAll(): Promise<Patente[]>;
+  findOne(Id: number): Promise<Patente | null>;
+  update(Id: number, data: Prisma.PatenteUpdateInput): Promise<Patente>;
+  delete(Id: number): Promise<Patente>;
+}
+
 @Injectable()
-export class PatentesRepository {
+export class PatentesRepository implements IPatentesRepository {
   constructor(private prisma: PrismaService) {}
 
   async create(data: Prisma.PatenteCreateInput): Promise<Patente> {
