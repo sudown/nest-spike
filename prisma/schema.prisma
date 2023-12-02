@@ -122,7 +122,7 @@ model Cursa {
 model Curso {
   Id             Int              @id @default(autoincrement())
   Titulo         String
-  Descricao      String
+  Descricao      String           @db.VarChar(1500)
   XP             Int?             @default(0)
   Duracao        Int?             @default(0)
   CriadorId      Int
