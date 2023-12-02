@@ -10,8 +10,8 @@ export class Pessoa {
   Username: string;
   @ApiProperty({ required: false })
   Canal: string;
-  @ApiProperty()
-  UrlAvatar: string;
+  @ApiProperty({ required: false })
+  UrlAvatar?: string;
   @ApiProperty()
   Tipo: string;
   @ApiProperty()
