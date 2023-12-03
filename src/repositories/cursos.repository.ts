@@ -43,19 +43,23 @@ export class CursosRepository implements ICursosRepository {
     });
   }
 
-  async getProgressoCursoByPessoaId(idPessoa: number) {
+  async getProgressoCursoByPessoaId(
+    idPessoa: number,
+  ): Promise<CursoProgressoDto[]> {
     const progressoAulas: CursoProgressoDto[] = await this.prisma.$queryRaw`
-      SELECT
-        CP.idCurso,
-        CP.idPessoa,
-        COUNT(AP.concluido = true OR NULL) AS AulasConcluidas,
-        COUNT(*) AS TotalAulas
-      FROM CursoProgresso CP
-      JOIN Modulo M ON CP.idCurso = M.fkCursoId
-      JOIN Aula A ON M.Id = A.fk_modulo_id
-      LEFT JOIN AulaProgresso AP ON A.Id = AP.idAula AND CP.idPessoa = AP.idPessoa
-      WHERE CP.idPessoa = ${idPessoa}
-      GROUP BY CP.idCurso, CP.idPessoa;
+    SELECT
+    CP.idCurso,
+    C.Titulo AS TituloCurso,
+    CP.idPessoa,
+    COUNT(AP.concluido = true OR NULL) AS AulasConcluidas,
+    COUNT(*) AS TotalAulas
+  FROM CursoProgresso CP
+  JOIN Modulo M ON CP.idCurso = M.fkCursoId
+  JOIN Aula A ON M.Id = A.fk_modulo_id
+  LEFT JOIN AulaProgresso AP ON A.Id = AP.idAula AND CP.idPessoa = AP.idPessoa
+  JOIN Curso C ON CP.idCurso = C.Id
+  WHERE CP.idPessoa = ${idPessoa}
+  GROUP BY CP.idCurso, C.Titulo, CP.idPessoa;
     `;
 
     // Converter BigInt para número antes de imprimir

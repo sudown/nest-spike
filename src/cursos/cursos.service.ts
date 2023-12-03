@@ -12,6 +12,7 @@ import { CursosRepository } from 'src/repositories/cursos.repository';
 import { Curso, Prisma } from '@prisma/client';
 import { CursaRepository } from 'src/repositories/cursoProgresso.repository';
 import { AulasRepository } from 'src/repositories/aulas.repository';
+import { CursoProgressoDto } from './dto/cursoProgresso.dto';
 
 @Injectable()
 export class CursosService {
@@ -51,7 +52,7 @@ export class CursosService {
     return await this.cursosRepository.delete(Id);
   }
 
-  async findCursosByPessoaId(idPessoa: number): Promise<any> {
+  async findCursosByPessoaId(idPessoa: number): Promise<CursoProgressoDto[]> {
     const progressoAula =
       await this.cursosRepository.getProgressoCursoByPessoaId(idPessoa);
     if (progressoAula.length === 0) {
