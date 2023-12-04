@@ -4,6 +4,8 @@ export class Aula {
   @ApiProperty()
   Id: number;
   @ApiProperty()
+  Titulo: string;
+  @ApiProperty()
   Descricao: string;
   @ApiProperty()
   fk_modulo_id: number;

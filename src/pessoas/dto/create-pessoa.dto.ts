@@ -21,6 +21,18 @@ export class CreatePessoaDto {
   @IsString()
   Tipo: string;
   @ApiProperty({ required: false })
+  YouTube?: string;
+  @ApiProperty({ required: false })
+  Discord?: string;
+  @ApiProperty({ required: false })
+  Linkedin?: string;
+  @ApiProperty({ required: false })
+  Instagram?: string;
+  @ApiProperty({ required: false })
+  Github?: string;
+  @ApiProperty({ required: false })
+  Twitter?: string;
+  @ApiProperty({ required: false })
   XP?: number;
   @ApiProperty({ required: false })
   Canal: string;

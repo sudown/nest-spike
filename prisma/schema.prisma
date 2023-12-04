@@ -23,7 +23,8 @@ model Insignia {
 // Definição do modelo Aula
 model Aula {
   Id            Int             @id @default(autoincrement())
-  Descricao     String
+  Titulo        String          @default("Aula exemplo")
+  Descricao     String          @db.VarChar(1500)
   XP            Int?
   UrlVideo      String
   Duracao       Int
@@ -61,7 +62,7 @@ model Materiais {
 model Modulo {
   Id              Int               @id @default(autoincrement())
   Titulo          String
-  Descricao       String
+  Descricao       String            @db.VarChar(1500)
   Sequencia       Int
   curso           Curso             @relation(fields: [fkCursoId], references: [Id], onDelete: Cascade)
   fkCursoId       Int
@@ -80,6 +81,12 @@ model Pessoa {
   XP              Int               @default(10)
   Canal           String?           @default("")
   UrlAvatar       String?           @default("")
+  Youtube         String?           @default("")
+  Discord         String?           @default("")
+  Linkedin        String?           @default("")
+  Instagram       String?           @default("")
+  Github          String?           @default("")
+  Twitter         String?           @default("")
   possui          Possui[]
   cursa           Cursa[]
   patente         Patente?          @relation(fields: [patenteId], references: [Id])

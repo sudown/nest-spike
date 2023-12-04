@@ -4,6 +4,8 @@ export class CreateAulaDto {
   @ApiProperty()
   Descricao: string;
   @ApiProperty()
+  Titulo: string;
+  @ApiProperty()
   fk_modulo_id: number;
   @ApiProperty()
   Sequencia: number;
