@@ -9,7 +9,7 @@ export class Pessoa {
   @ApiProperty()
   Username: string;
   @ApiProperty({ required: false })
-  Canal: string;
+  Sobre: string;
   @ApiProperty({ required: false })
   UrlAvatar?: string;
   @ApiProperty({ required: false })

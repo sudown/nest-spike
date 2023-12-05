@@ -35,7 +35,7 @@ export class CreatePessoaDto {
   @ApiProperty({ required: false })
   XP?: number;
   @ApiProperty({ required: false })
-  Canal: string;
+  Sobre: string;
   @ApiProperty({ required: false })
   patenteId?: string;
 }

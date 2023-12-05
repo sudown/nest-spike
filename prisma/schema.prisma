@@ -87,6 +87,7 @@ model Pessoa {
   Instagram       String?           @default("")
   Github          String?           @default("")
   Twitter         String?           @default("")
+  Sobre           String?           @db.VarChar(200)
   possui          Possui[]
   cursa           Cursa[]
   patente         Patente?          @relation(fields: [patenteId], references: [Id])
