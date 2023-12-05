@@ -63,4 +63,8 @@ export class CursosService {
     }
     return progressoAula;
   }
+
+  async getCursosByCriadorId(CriadorId: number): Promise<Curso[]> {
+    return this.cursosRepository.getCursosByCriadorId(CriadorId);
+  }
 }

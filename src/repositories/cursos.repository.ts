@@ -37,6 +37,12 @@ export class CursosRepository implements ICursosRepository {
     });
   }
 
+  async getCursosByCriadorId(CriadorId: number): Promise<Curso[]> {
+    return this.prisma.curso.findMany({
+      where: { CriadorId },
+    });
+  }
+
   async delete(Id: number): Promise<Curso> {
     return await this.prisma.curso.delete({
       where: { Id },

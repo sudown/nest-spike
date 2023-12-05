@@ -154,4 +154,19 @@ export class CursosController {
   pessoaProgresso(@Param('pessoaId') pessoaId: string) {
     return this.cursosService.findCursosByPessoaId(+pessoaId);
   }
+
+  @Get('CriadorId/:CriadorId')
+  @ApiOperation({ summary: 'Listar todos os cursos de um criador' })
+  @ApiResponse({
+    status: 200,
+    description: 'Lista de cursos',
+    type: [Curso],
+  })
+  @ApiResponse({
+    status: 204,
+    description: 'Criador não possui nenhum curso',
+  })
+  getCursosByCriadorId(@Param('CriadorId') CriadorId: string) {
+    return this.cursosService.getCursosByCriadorId(+CriadorId);
+  }
 }
