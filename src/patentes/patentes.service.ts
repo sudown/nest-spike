@@ -3,28 +3,41 @@ import { CreatePatenteDto } from './dto/create-patente.dto';
 import { UpdatePatenteDto } from './dto/update-patente.dto';
 import { PatentesRepository } from 'src/repositories/patentes.repository';
 import { Patente } from '@prisma/client';
-
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import {
+  Patente as PatenteMG,
+  PatenteDocument,
+} from './schemas/patente.schema';
 @Injectable()
 export class PatentesService {
-  constructor(private patentesRepository: PatentesRepository) {}
+  constructor(
+    @InjectModel(PatenteMG.name)
+    private patenteModel: Model<PatenteDocument>, // private patentesRepository: PatentesRepository,
+  ) {}
 
-  create(createPatenteDto: CreatePatenteDto): Promise<Patente> {
-    return this.patentesRepository.create(createPatenteDto);
+  async create(createPatenteDto: CreatePatenteDto): Promise<PatenteMG> {
+    const createdPatente = new this.patenteModel(createPatenteDto);
+    return createdPatente.save();
   }
 
-  findAll(): Promise<Patente[]> {
-    return this.patentesRepository.findAll();
-  }
+  // create(createPatenteDto: CreatePatenteDto): Promise<Patente> {
+  //   return this.patentesRepository.create(createPatenteDto);
+  // }
 
-  findOne(Id: number): Promise<Patente | null> {
-    return this.patentesRepository.findOne(Id);
-  }
+  // findAll(): Promise<Patente[]> {
+  //   return this.patentesRepository.findAll();
+  // }
 
-  update(Id: number, updatePatenteDto: UpdatePatenteDto): Promise<Patente> {
-    return this.patentesRepository.update(Id, updatePatenteDto);
-  }
+  // findOne(Id: number): Promise<Patente | null> {
+  //   return this.patentesRepository.findOne(Id);
+  // }
 
-  remove(Id: number): Promise<Patente> {
-    return this.patentesRepository.delete(Id);
-  }
+  // update(Id: number, updatePatenteDto: UpdatePatenteDto): Promise<Patente> {
+  //   return this.patentesRepository.update(Id, updatePatenteDto);
+  // }
+
+  // remove(Id: number): Promise<Patente> {
+  //   return this.patentesRepository.delete(Id);
+  // }
 }

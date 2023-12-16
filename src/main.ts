@@ -2,8 +2,10 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as dotenv from 'dotenv';
 
 async function bootstrap() {
+  dotenv.config();
   const app = await NestFactory.create(AppModule, {
     bufferLogs: true,
     cors: true,
@@ -22,6 +24,8 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({ disableErrorMessages: false, transform: true }),
   );
+  console.log('AAAAAAAAAAAAAA ' + process.env.MONGODB_URI);
+
   await app.listen(3333);
 }
 bootstrap();

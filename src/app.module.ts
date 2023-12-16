@@ -10,6 +10,7 @@ import { CursaModule } from './cursa/cursa.module';
 import { ModulosModule } from './modulos/modulos.module';
 import { AulasModule } from './aulas/aulas.module';
 import { MateriasModule } from './materias/materias.module';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { MateriasModule } from './materias/materias.module';
     ModulosModule,
     AulasModule,
     MateriasModule,
+    MongooseModule.forRoot(process.env.MONGODB_URI),
   ],
   controllers: [AppController],
   providers: [AppService],
