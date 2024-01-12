@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { Patente, Prisma } from '@prisma/client';
+import { Patente as PatenteEntity } from 'src/patentes/entities/patente.entity';
+import { PrismaPatenteMapper } from 'src/prisma/mappers/prisma-patente-mapper';
 
 interface IPatentesRepository {
   create(data: Prisma.PatenteCreateInput): Promise<Patente>;
@@ -14,20 +16,29 @@ interface IPatentesRepository {
 export class PatentesRepository implements IPatentesRepository {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: Prisma.PatenteCreateInput): Promise<Patente> {
-    return this.prisma.patente.create({
-      data,
+  async create(patente: PatenteEntity): Promise<PatenteEntity> {
+    const raw = PrismaPatenteMapper.toPersistence(patente);
+    const response = await this.prisma.patente.create({
+      data: raw,
     });
+
+    return PrismaPatenteMapper.toDomain(response);
   }
 
   async findAll(): Promise<Patente[]> {
     return this.prisma.patente.findMany();
   }
 
-  async findOne(Id: number): Promise<Patente> {
-    return this.prisma.patente.findFirst({
+  async findOne(Id: number): Promise<PatenteEntity> {
+    const patente = await this.prisma.patente.findFirst({
       where: { Id },
     });
+
+    if (!patente) {
+      throw new Error('Patente não encontrada');
+    }
+
+    return PrismaPatenteMapper.toDomain(patente);
   }
 
   async update(Id: number, data: Prisma.PatenteUpdateInput): Promise<Patente> {
