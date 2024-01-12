@@ -18,6 +18,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { PatenteViewModel } from 'src/http/view-models/patente-view-model';
 
 @ApiTags('patentes')
 @Controller('patentes')
@@ -32,8 +33,10 @@ export class PatentesController {
     type: Patente,
   })
   @Post()
-  create(@Body() createPatenteDto: CreatePatenteDto) {
-    return this.patentesService.create(createPatenteDto);
+  async create(@Body() createPatenteDto: CreatePatenteDto) {
+    return PatenteViewModel.toHttp(
+      await this.patentesService.create(createPatenteDto),
+    );
   }
 
   @ApiOperation({ summary: 'Listar todas as patentes' })
@@ -43,8 +46,8 @@ export class PatentesController {
     type: [Patente],
   })
   @Get()
-  findAll() {
-    return this.patentesService.findAll();
+  async findAll() {
+    return (await this.patentesService.findAll()).map(PatenteViewModel.toHttp);
   }
 
   @ApiOperation({ summary: 'Listar uma patente' })
@@ -55,8 +58,8 @@ export class PatentesController {
   })
   @ApiNotFoundResponse({ description: 'Patente não encontrada' })
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.patentesService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return PatenteViewModel.toHttp(await this.patentesService.findOne(+id));
   }
 
   @ApiOperation({ summary: 'Atualizar uma patente' })
@@ -66,8 +69,13 @@ export class PatentesController {
     type: Patente,
   })
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePatenteDto: UpdatePatenteDto) {
-    return this.patentesService.update(+id, updatePatenteDto);
+  async update(
+    @Param('id') id: string,
+    @Body() updatePatenteDto: UpdatePatenteDto,
+  ) {
+    return PatenteViewModel.toHttp(
+      await this.patentesService.update(+id, updatePatenteDto),
+    );
   }
 
   @ApiOperation({ summary: 'Remover uma patente' })
@@ -77,7 +85,7 @@ export class PatentesController {
     type: Patente,
   })
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.patentesService.remove(+id);
+  async remove(@Param('id') id: string) {
+    PatenteViewModel.toHttp(await this.patentesService.remove(+id));
   }
 }
