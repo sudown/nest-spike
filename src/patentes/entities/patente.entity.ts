@@ -2,9 +2,9 @@
 
 export interface PatenteProps {
   Id?: number;
-  Nome: string;
-  Imagem: string;
-  Descricao: string;
+  Nome?: string;
+  Imagem?: string;
+  Descricao?: string;
 }
 
 export class Patente {

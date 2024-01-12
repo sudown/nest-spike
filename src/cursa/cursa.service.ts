@@ -5,11 +5,11 @@ import {
   Inject,
   Injectable,
 } from '@nestjs/common';
-import { CursaRepository } from 'src/repositories/cursoProgresso.repository';
+import { CursaRepository } from 'src/prisma/repositories/cursoProgresso.repository';
 import { CursoProgresso } from '@prisma/client';
 import winston from 'winston';
-import { AulasRepository } from 'src/repositories/aulas.repository';
-import { ModuloRepository } from 'src/repositories/modulos.repository';
+import { AulasRepository } from 'src/prisma/repositories/aulas.repository';
+import { ModuloRepository } from 'src/prisma/repositories/modulos.repository';
 import { CreateCursaDto } from './dto/create-cursa.dto';
 import { UpdateCursaDto } from './dto/update-cursa.dto';
 

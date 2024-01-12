@@ -8,10 +8,10 @@ import {
 } from '@nestjs/common';
 import { UpdateCursoDto } from './dto/update-curso.dto';
 import * as winston from 'winston';
-import { CursosRepository } from 'src/repositories/cursos.repository';
+import { CursosRepository } from 'src/prisma/repositories/cursos.repository';
 import { Curso, Prisma } from '@prisma/client';
-import { CursaRepository } from 'src/repositories/cursoProgresso.repository';
-import { AulasRepository } from 'src/repositories/aulas.repository';
+import { CursaRepository } from 'src/prisma/repositories/cursoProgresso.repository';
+import { AulasRepository } from 'src/prisma/repositories/aulas.repository';
 import { CursoProgressoDto } from './dto/cursoProgresso.dto';
 
 @Injectable()

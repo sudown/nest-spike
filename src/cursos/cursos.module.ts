@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { CursosService } from './cursos.service';
 import { CursosController } from './cursos.controller';
-import { CursosRepository } from 'src/repositories/cursos.repository';
+import { CursosRepository } from 'src/prisma/repositories/cursos.repository';
 import { PrismaService } from 'src/prisma.service';
-import { CursaRepository } from 'src/repositories/cursoProgresso.repository';
-import { AulasRepository } from 'src/repositories/aulas.repository';
-import { ModuloRepository } from 'src/repositories/modulos.repository';
+import { CursaRepository } from 'src/prisma/repositories/cursoProgresso.repository';
+import { AulasRepository } from 'src/prisma/repositories/aulas.repository';
+import { ModuloRepository } from 'src/prisma/repositories/modulos.repository';
 
 @Module({
   controllers: [CursosController],

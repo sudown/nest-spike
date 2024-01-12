@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMateriaDto } from './dto/create-materia.dto';
 import { UpdateMateriaDto } from './dto/update-materia.dto';
-import { MateriasRepository } from 'src/repositories/materias.repository';
+import { MateriasRepository } from 'src/prisma/repositories/materias.repository';
 
 @Injectable()
 export class MateriasService {

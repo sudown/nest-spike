@@ -1,6 +1,6 @@
 import { Injectable, Inject, ConflictException } from '@nestjs/common';
 import { UpdatePessoaDto } from './dto/update-pessoa.dto';
-import { PessoasRepository } from '../repositories/pessoas.repository';
+import { PessoasRepository } from '../prisma/repositories/pessoas.repository';
 import { Pessoa, Prisma } from '@prisma/client';
 import { generateHash } from 'src/helpers/generatePassword';
 import * as winston from 'winston';

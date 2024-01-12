@@ -2,7 +2,7 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 // import { CreateModuloDto } from './dto/create-modulo.dto';
 // import { UpdateModuloDto } from './dto/update-modulo.dto';
 import { Prisma } from '@prisma/client';
-import { ModuloRepository } from 'src/repositories/modulos.repository';
+import { ModuloRepository } from 'src/prisma/repositories/modulos.repository';
 import winston from 'winston';
 
 @Injectable()

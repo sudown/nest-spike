@@ -7,8 +7,8 @@ import {
 } from '@nestjs/common';
 // import { UpdateAulaDto } from './dto/update-aula.dto';
 // import { Prisma } from '@prisma/client';
-import { AulasRepository } from 'src/repositories/aulas.repository';
-import { ModuloRepository } from 'src/repositories/modulos.repository';
+import { AulasRepository } from 'src/prisma/repositories/aulas.repository';
+import { ModuloRepository } from 'src/prisma/repositories/modulos.repository';
 import winston from 'winston';
 import { CreateAulaDto } from './dto/create-aula.dto';
 import { UpdateAulaDto } from './dto/update-aula.dto';

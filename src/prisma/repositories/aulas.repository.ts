@@ -1,5 +1,5 @@
 import { AulaProgresso, Prisma } from '@prisma/client';
-import { PrismaService } from '../prisma.service';
+import { PrismaService } from '../../prisma.service';
 import { Aula } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
 import { ModuloRepository } from './modulos.repository';

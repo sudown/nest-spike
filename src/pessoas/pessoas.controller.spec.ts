@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PessoasController } from './pessoas.controller';
 import { PessoasService } from './pessoas.service';
-import { PessoasRepository } from '../repositories/pessoas.repository';
+import { PessoasRepository } from '../prisma/repositories/pessoas.repository';
 import { PrismaService } from '../prisma.service';
 import * as winston from 'winston';
 
