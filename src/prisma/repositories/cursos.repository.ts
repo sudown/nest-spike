@@ -10,6 +10,7 @@ interface ICursosRepository {
   findOne(Id: number): Promise<Curso | null>;
   delete(Id: number): Promise<Curso>;
   getProgressoCursoByPessoaId(idPessoa: number): Promise<CursoProgressoDto[]>;
+  getPage(skip: number, take: number): Promise<Curso[]>;
 }
 
 @Injectable()
@@ -29,6 +30,13 @@ export class CursosRepository implements ICursosRepository {
 
   async findAll(): Promise<Curso[]> {
     return this.prisma.curso.findMany();
+  }
+
+  async getPage(skip: number, take: number): Promise<Curso[]> {
+    return this.prisma.curso.findMany({
+      skip,
+      take
+    });
   }
 
   async findOne(Id: number): Promise<Curso | null> {

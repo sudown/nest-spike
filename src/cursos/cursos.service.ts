@@ -32,6 +32,12 @@ export class CursosService {
     return cursos;
   }
 
+  async getPage(index: number): Promise<Curso[]> {
+    const count = 10;
+    const cursos = await this.cursosRepository.getPage((index - 1) * 10, count);
+    return cursos;
+  }
+
   async findOne(Id: number): Promise<Curso | null> {
     const curso = await this.cursosRepository.findOne(Id);
 
