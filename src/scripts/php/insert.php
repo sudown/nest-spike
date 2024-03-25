@@ -18,7 +18,7 @@ try {
     $pdo->exec("INSERT INTO Pessoa (Nome, Senha, Email, Tipo, Username, XP, Canal, UrlAvatar, Youtube, Discord, Linkedin, Instagram, Github, Twitter, Sobre, patenteId) VALUES 
                 ('João Silva', '$2b$10\$L2VDk8AEAPVk/x0yFqjXhOC4SQENs.sY7Na8iorKlGVVEfPAFK77S', 'joao.silva@example.com', 'Aluno', 'joao123', 20, 'Canal do João', 'url_avatar_joao', 'joao_youtube', 'joao_discord', 'joao_linkedin', 'joao_instagram', 'joao_github', 'joao_twitter', 'Sobre o João Silva', 1),
                 ('Maria Oliveira', '$2b$10\$L2VDk8AEAPVk/x0yFqjXhOC4SQENs.sY7Na8iorKlGVVEfPAFK77S', 'maria.oliveira@example.com', 'Criador', 'maria456', 30, 'Canal da Maria', 'url_avatar_maria', 'maria_youtube', 'maria_discord', 'maria_linkedin', 'maria_instagram', 'maria_github', 'maria_twitter', 'Sobre a Maria Oliveira', 1),
-                ('Carlos Santos', '$2b$10\$L2VDk8AEAPVk/x0yFqjXhOC4SQENs.sY7Na8iorKlGVVEfPAFK77S', 'carlos.santos@example.com', 'Aluno', 'carlos789', 40, 'Canal do Carlos', 'url_avatar_carlos', 'carlos_youtube', 'carlos_discord', 'carlos_linkedin', 'carlos_instagram', 'carlos_github', 'carlos_twitter', 'Sobre o Carlos Santos', 1)");
+                ('Carlos Santos', '$2b$10\$L2VDk8AEAPVk/x0yFqjXhOC4SQENs.sY7Na8iorKlGVVEfPAFK77S', 'carlos.santos@example.com', 'Criador', 'carlos789', 40, 'Canal do Carlos', 'url_avatar_carlos', 'carlos_youtube', 'carlos_discord', 'carlos_linkedin', 'carlos_instagram', 'carlos_github', 'carlos_twitter', 'Sobre o Carlos Santos', 1)");
 
     // Inserts para tabela 'curso'
     $pdo->exec("INSERT INTO Curso (Titulo, Descricao, XP, Duracao, CriadorId, UrlThumbnail) VALUES 
