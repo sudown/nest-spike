@@ -7,8 +7,8 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 // Definição do modelo Insignia
@@ -24,7 +24,7 @@ model Insignia {
 model Aula {
   Id            Int             @id @default(autoincrement())
   Titulo        String          @default("Aula exemplo")
-  Descricao     String          @db.VarChar(1500)
+  Descricao     String          
   XP            Int?
   UrlVideo      String
   Duracao       Int
@@ -62,7 +62,7 @@ model Materiais {
 model Modulo {
   Id              Int               @id @default(autoincrement())
   Titulo          String
-  Descricao       String            @db.VarChar(1500)
+  Descricao       String            
   Sequencia       Int
   curso           Curso             @relation(fields: [fkCursoId], references: [Id], onDelete: Cascade)
   fkCursoId       Int
@@ -87,7 +87,7 @@ model Pessoa {
   Instagram       String?           @default("")
   Github          String?           @default("")
   Twitter         String?           @default("")
-  Sobre           String?           @db.VarChar(200)
+  Sobre           String?           
   possui          Possui[]
   cursa           Cursa[]
   patente         Patente?          @relation(fields: [patenteId], references: [Id])
@@ -130,7 +130,7 @@ model Cursa {
 model Curso {
   Id             Int              @id @default(autoincrement())
   Titulo         String
-  Descricao      String           @db.VarChar(1500)
+  Descricao      String           
   XP             Int?             @default(0)
   Duracao        Int?             @default(0)
   CriadorId      Int
