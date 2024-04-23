@@ -35,7 +35,7 @@ export class CursosRepository implements ICursosRepository {
   async getPage(skip: number, take: number): Promise<Curso[]> {
     return this.prisma.curso.findMany({
       skip,
-      take
+      take,
     });
   }
 

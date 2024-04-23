@@ -63,11 +63,11 @@ export class CursosController {
   }
 
   @Get('/page/:index')
-  @ApiOperation({summary: 'Listar cursos paginados' })
+  @ApiOperation({ summary: 'Listar cursos paginados' })
   @ApiResponse({
     status: 200,
     description: 'Pagina de cursos',
-    type: [Curso]
+    type: [Curso],
   })
   getPage(@Param('index') index: number) {
     return this.cursosService.getPage(index);

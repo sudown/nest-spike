@@ -10,6 +10,7 @@ import { CursaModule } from './cursa/cursa.module';
 import { ModulosModule } from './modulos/modulos.module';
 import { AulasModule } from './aulas/aulas.module';
 import { MateriasModule } from './materias/materias.module';
+import { InsigniasModule } from './insignias/insignias.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { MateriasModule } from './materias/materias.module';
     ModulosModule,
     AulasModule,
     MateriasModule,
+    InsigniasModule,
   ],
   controllers: [AppController],
   providers: [AppService],
