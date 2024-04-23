@@ -11,6 +11,7 @@ import { ModulosModule } from './modulos/modulos.module';
 import { AulasModule } from './aulas/aulas.module';
 import { MateriasModule } from './materias/materias.module';
 import { InsigniasModule } from './insignias/insignias.module';
+import { FeedbacksModule } from './feedbacks/feedbacks.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { InsigniasModule } from './insignias/insignias.module';
     AulasModule,
     MateriasModule,
     InsigniasModule,
+    FeedbacksModule,
   ],
   controllers: [AppController],
   providers: [AppService],
