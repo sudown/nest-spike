@@ -1,13 +1,21 @@
 import { Injectable } from '@nestjs/common';
-import { Insignia, Possui, Prisma } from '@prisma/client';
+import { Prisma, Insignia, Possui } from '@prisma/client';
+import { UpdateInsigniaDto } from './dto/update-insignia.dto';
 import { InsigniaRepository } from 'src/prisma/repositories/insignia.repository';
+import { CreateInsigniaDto } from './dto/create-insignia.dto';
+import { CreatePossuiDto } from './dto/create-possui.dto';
 
 @Injectable()
 export class InsigniaService {
   constructor(private readonly insigniaRepository: InsigniaRepository) {}
 
-  async createInsignia(data: Prisma.InsigniaCreateInput): Promise<Insignia> {
-    return this.insigniaRepository.createInsignia(data);
+  async createInsignia(data: CreateInsigniaDto): Promise<Insignia> {
+    const input: Prisma.InsigniaCreateInput = {
+      Descricao: data.descricao,
+      Nome: data.nome,
+      Imagem: data.imagem,
+    };
+    return this.insigniaRepository.createInsignia(input);
   }
 
   async findAllInsignias(): Promise<Insignia[]> {
@@ -18,19 +26,33 @@ export class InsigniaService {
     return this.insigniaRepository.findInsigniaById(id);
   }
 
-  async updateInsignia(
-    id: number,
-    data: Prisma.InsigniaUpdateInput,
-  ): Promise<Insignia> {
-    return this.insigniaRepository.updateInsignia(id, data);
+  async updateInsignia(id: number, data: UpdateInsigniaDto): Promise<Insignia> {
+    const input: Prisma.InsigniaUpdateInput = {
+      Descricao: data.descricao,
+      Imagem: data.imagem,
+      Nome: data.nome,
+    };
+    return this.insigniaRepository.updateInsignia(id, input);
   }
-
   async removeInsignia(id: number): Promise<Insignia> {
     return this.insigniaRepository.removeInsignia(id);
   }
 
-  async createPossui(data: Prisma.PossuiCreateInput): Promise<Possui> {
-    return this.insigniaRepository.createPossui(data);
+  async createPossui(data: CreatePossuiDto): Promise<Possui> {
+    const input: Prisma.PossuiCreateInput = {
+      insignia: {
+        connect: {
+          Id: data.fk_Insignia_Id,
+        },
+      },
+      pessoa: {
+        connect: {
+          Id: data.fk_Pessoa_Id,
+        },
+      },
+    };
+
+    return this.insigniaRepository.createPossui(input);
   }
 
   async findAllPossuicoes(): Promise<Possui[]> {

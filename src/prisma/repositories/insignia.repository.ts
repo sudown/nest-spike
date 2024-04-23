@@ -27,6 +27,10 @@ export class InsigniaRepository {
     return this.prisma.insignia.update({ where: { Id: id }, data });
   }
 
+  async findAllPossuicoes(): Promise<Possui[]> {
+    return await this.prisma.possui.findMany();
+  }
+
   async removeInsignia(id: number): Promise<Insignia> {
     return this.prisma.insignia.delete({ where: { Id: id } });
   }
@@ -35,10 +39,6 @@ export class InsigniaRepository {
 
   async createPossui(data: Prisma.PossuiCreateInput): Promise<Possui> {
     return this.prisma.possui.create({ data });
-  }
-
-  async findAllPossuicoes(): Promise<Possui[]> {
-    return this.prisma.possui.findMany();
   }
 
   async findPossuicaoById(id: number): Promise<Possui | null> {

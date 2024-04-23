@@ -6,20 +6,45 @@ import {
   Param,
   Delete,
   Put,
+  Patch,
 } from '@nestjs/common';
 
 import { Insignia, Possui } from '@prisma/client';
+import { Insignia as InsigniaEntity } from './entities/insignia.entity';
 import { InsigniaService } from './insignias.service';
+import {
+  ApiOperation,
+  ApiProperty,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { CreateInsigniaDto } from './dto/create-insignia.dto';
+import { UpdateInsigniaDto } from './dto/update-insignia.dto';
+import { CreatePossuiDto } from './dto/create-possui.dto';
 
+@ApiTags('insignias')
 @Controller('insignias')
 export class InsigniaController {
   constructor(private readonly insigniaService: InsigniaService) {}
 
+  @ApiOperation({ summary: 'Criar uma insignia' })
+  @ApiProperty({ type: CreateInsigniaDto })
+  @ApiResponse({
+    status: 201,
+    description: 'Insignia criada com sucesso',
+    type: InsigniaEntity,
+  })
   @Post()
-  createInsignia(@Body() data: any): Promise<Insignia> {
+  createInsignia(@Body() data: CreateInsigniaDto): Promise<Insignia> {
     return this.insigniaService.createInsignia(data);
   }
 
+  @ApiOperation({ summary: 'Listar todas as insignias' })
+  @ApiResponse({
+    status: 200,
+    description: 'Listagem de todas as insignias',
+    type: [InsigniaEntity],
+  })
   @Get()
   findAllInsignias(): Promise<Insignia[]> {
     return this.insigniaService.findAllInsignias();
@@ -30,10 +55,10 @@ export class InsigniaController {
     return this.insigniaService.findInsigniaById(Number(id));
   }
 
-  @Put(':id')
+  @Patch(':id')
   updateInsignia(
     @Param('id') id: string,
-    @Body() data: any,
+    @Body() data: UpdateInsigniaDto,
   ): Promise<Insignia> {
     return this.insigniaService.updateInsignia(Number(id), data);
   }
@@ -43,8 +68,10 @@ export class InsigniaController {
     return this.insigniaService.removeInsignia(Number(id));
   }
 
+  @ApiOperation({ summary: 'Criar uma possuicao' })
+  @ApiProperty({ type: CreatePossuiDto })
   @Post('possui')
-  createPossui(@Body() data: any): Promise<Possui> {
+  createPossui(@Body() data: CreatePossuiDto): Promise<Possui> {
     return this.insigniaService.createPossui(data);
   }
 

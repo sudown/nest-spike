@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
-import { InsigniasService } from './insignias.service';
-import { InsigniasController } from './insignias.controller';
+import { InsigniaService } from './insignias.service';
+import { InsigniaController } from './insignias.controller';
+import { InsigniaRepository } from 'src/prisma/repositories/insignia.repository';
+import { PrismaService } from 'src/prisma.service';
 
 @Module({
-  controllers: [InsigniasController],
-  providers: [InsigniasService],
+  controllers: [InsigniaController],
+  providers: [InsigniaService, PrismaService, InsigniaRepository],
 })
 export class InsigniasModule {}
