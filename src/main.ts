@@ -9,14 +9,15 @@ async function bootstrap() {
     bufferLogs: true,
   });
 
-  // app.enableCors({
-  //   origin: ['localhost:3000'],
-  //   methods: 'GET,HEAD,PATCH,POST,DELETE',
-  //   allowedHeaders: 'Content-Type,Authorization',
-  //   exposedHeaders: 'Content-Length, X-Kuma-Revision',
-  //   credentials: true,
-  //   maxAge: 3600,
-  // }); // Enable CORS
+  app.enableCors({
+    origin: ['http://localhost:3000'],
+    methods: 'GET,HEAD,PATCH,POST,DELETE',
+    allowedHeaders: 'Content-Type,Authorization',
+    exposedHeaders: 'Content-Length, X-Kuma-Revision',
+    credentials: true,
+    maxAge: 3600,
+  });
+  
 
   const config = new DocumentBuilder()
     .setTitle("Sionise's API")
