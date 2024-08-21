@@ -12,6 +12,7 @@ import { AulasModule } from './aulas/aulas.module';
 import { MateriasModule } from './materias/materias.module';
 import { InsigniasModule } from './insignias/insignias.module';
 import { FeedbacksModule } from './feedbacks/feedbacks.module';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -29,5 +30,13 @@ import { FeedbacksModule } from './feedbacks/feedbacks.module';
   ],
   controllers: [AppController],
   providers: [AppService],
+})
+@Module({
+  imports: [
+    ThrottlerModule.forRoot([{
+      ttl: 6000,
+      limit: 100,
+    }]),
+  ]
 })
 export class AppModule {}
